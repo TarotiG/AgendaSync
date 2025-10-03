@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="" />
+    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="name refactor">
+      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Services/CalendarDataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Calendar/Interfaces/CalendarDataInterface.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,6 +37,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tgysbert\Desktop\AgendaSync\src\main\java\Calendar\Interfaces" />
       <recent name="C:\Users\tgysbert\Desktop\AgendaSync\src\main" />
       <recent name="C:\Users\tgysbert\Desktop\" />
       <recent name="C:\Users\tgysbert\Desktop\random\TestAutomationUni\AgendaSync\src\main" />
@@ -77,6 +80,21 @@
       <option name="presentableId" value="Default" />
       <updated>1759493606138</updated>
     </task>
+    <task id="LOCAL-00001" summary="First setup project">
+      <created>1759501297263</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759501297263</updated>
+    </task>
+    <task id="LOCAL-00002" summary="name refactor">
+      <created>1759501552613</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1759501552613</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -89,6 +107,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First setup project" />
+    <MESSAGE value="name refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="name refactor" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AgendaSync$AgendaSync__dependencies_.ic" NAME="AgendaSync [dependencies] Coverage Results" MODIFIED="1759499065822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
