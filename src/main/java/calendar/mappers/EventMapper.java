@@ -1,5 +1,6 @@
 package calendar.mappers;
 
+import calendar.sync.CalendarType;
 import calendar.sync.SyncCalendarDto;
 import calendar.sync.SyncEventDto;
 import com.google.api.services.calendar.model.Event;
@@ -32,6 +33,7 @@ public class EventMapper {
             syncEventDto.endDateTime = event.getEnd();
             syncEventDto.location = event.getLocation();
             syncEventDto.iCalUID = event.getICalUID();
+            syncEventDto.eventOrigin = CalendarType.GOOGLE;
 //            syncEventDto.organizerEmail = event.getOrganizer();
 
             syncEventDtoList.add(syncEventDto);

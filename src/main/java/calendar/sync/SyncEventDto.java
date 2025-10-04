@@ -27,4 +27,6 @@ public class SyncEventDto {
     public Status status;
     public String iCalUID;
     public List<Attachment> attachments;
+    public CalendarType eventOrigin;
+    public boolean existsInForeignCalendar; // mogelijk hernoemen
 }

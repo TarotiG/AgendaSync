@@ -29,7 +29,7 @@ public class GoogleCalendarService {
     /**
      * Application name.
      */
-    private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
+    private static final String APPLICATION_NAME = "AgendaSync";
     /**
      * Global instance of the JSON factory.
      */
@@ -89,6 +89,7 @@ public class GoogleCalendarService {
         DateTime now = new DateTime(System.currentTimeMillis());
 
         Events events = calendar.events().list("primary")
+                .setMaxResults(10) // later verwijderen of aanpassen naar meer results
                 .setTimeMin(now)
                 .setOrderBy("startTime")
                 .setSingleEvents(true)
