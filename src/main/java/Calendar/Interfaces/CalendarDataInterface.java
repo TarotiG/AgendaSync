@@ -1,14 +1,22 @@
-public interface CalendarDataService {
+package Calendar.Interfaces;
 
-    void connectToPlatform();
+import com.google.api.services.calendar.Calendar;
+import jdk.jshell.spi.ExecutionControl;
 
-    void retrieveCalendarItems();
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
-    void sortCalendarItemsToDate();
+public interface CalendarDataInterface {
 
-    void postCalendarItem();
+    CalendarDto connectToPlatform() throws IOException, GeneralSecurityException;
 
-    void syncCalendar();
+    void retrieveCalendarItems(CalendarDto calendarDto);
 
-    void validateSyncToEngine();
+    void sortCalendarItemsToDate() throws ExecutionControl.NotImplementedException;
+
+    void postCalendarItem() throws ExecutionControl.NotImplementedException;
+
+    void syncCalendarWithEngine() throws ExecutionControl.NotImplementedException;
+
+    void validateSyncToEngine() throws ExecutionControl.NotImplementedException;
 }
