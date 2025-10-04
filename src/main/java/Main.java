@@ -22,7 +22,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-/* class to demonstrate use of Calendar events list API */
+// Omzetten naar een Spring Boot Application Main class
 public class Main {
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
