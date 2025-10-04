@@ -4,35 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="mini aanpassing + toevoeging unversioned files">
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Calendar/Google/GoogleCalendarService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Calendar/Google/GoogleCalendarService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Calendar/Google/GoogleEventDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Calendar/Google/GoogleEventDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Calendar/Interfaces/CalendarDataInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Calendar/Interfaces/CalendarDataInterface.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Google/Enums/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/enums/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Google/Enums/Visibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/enums/Visibility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Google/GoogleCalendarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/GoogleCalendarService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Google/GoogleEventDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/GoogleEventDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Google/Models/Attachment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/models/Attachment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Google/Models/Attendee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/models/Attendee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Interfaces/CalendarDataInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/interfaces/CalendarDataInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Interfaces/CalendarDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/interfaces/CalendarDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Interfaces/EventDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/interfaces/EventDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Mappers/CalendarMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/mappers/EventMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Mappers/EventMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Services/RestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/services/RestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Sync/SyncCalendarDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/sync/SyncCalendarDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar/Sync/SyncEventDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/sync/SyncEventDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokens/StoredCredential" beforeDir="false" afterPath="$PROJECT_DIR$/tokens/StoredCredential" afterDir="false" />
-    </list>
+    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="Google kant verbeterd naar daadwerkelijke flow" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -152,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1759569406771</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Google kant verbeterd naar daadwerkelijke flow">
+      <created>1759588307188</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759588307188</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -172,7 +151,8 @@
     <MESSAGE value="kleine aanpassing" />
     <MESSAGE value="eerste start aan op opzet mappers en dto's" />
     <MESSAGE value="mini aanpassing + toevoeging unversioned files" />
-    <option name="LAST_COMMIT_MESSAGE" value="mini aanpassing + toevoeging unversioned files" />
+    <MESSAGE value="Google kant verbeterd naar daadwerkelijke flow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Google kant verbeterd naar daadwerkelijke flow" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AgendaSync$AgendaSync__dependencies_.ic" NAME="AgendaSync [dependencies] Coverage Results" MODIFIED="1759499065822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
