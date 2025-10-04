@@ -13,7 +13,11 @@ naar een 'SyncEventDto' zodat het in dit format vergeleken kan worden.
  */
 public class EventMapper {
 
-    // List<SyncEventDto> returnen
+    /**
+    Mapt Google Calendar Events naar SyncEngine Events
+    @param googleEvents Lijst van Google Calendar Events
+     @return Lijst van SyncEngine events
+    */
     public static List<SyncEventDto> mapGoogleEventsToSyncEventDto(List<Event> googleEvents) {
         ArrayList<SyncEventDto> syncEventDtoList = new ArrayList<>();
 
