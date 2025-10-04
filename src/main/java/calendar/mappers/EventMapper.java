@@ -13,8 +13,27 @@ naar een 'SyncEventDto' zodat het in dit format vergeleken kan worden.
  */
 public class EventMapper {
 
+    // List<SyncEventDto> returnen
     public static List<SyncEventDto> mapGoogleEventsToSyncEventDto(List<Event> googleEvents) {
-        return new ArrayList<>();
+        ArrayList<SyncEventDto> syncEventDtoList = new ArrayList<>();
+
+        for(Event event : googleEvents) {
+            SyncEventDto syncEventDto = new SyncEventDto();
+            syncEventDto.id = event.getId();
+            syncEventDto.title = event.getSummary();
+            syncEventDto.description = event.getDescription();
+            syncEventDto.created = event.getCreated();
+            syncEventDto.updated = event.getUpdated();
+            syncEventDto.startDateTime = event.getStart();
+            syncEventDto.endDateTime = event.getEnd();
+            syncEventDto.location = event.getLocation();
+            syncEventDto.iCalUID = event.getICalUID();
+//            syncEventDto.organizerEmail = event.getOrganizer();
+
+            syncEventDtoList.add(syncEventDto);
+        }
+
+        return syncEventDtoList;
     }
 
     public static List<Event> mapSyncEventDtoBackToGoogleEvent(List<SyncEventDto> syncEventDtos) {

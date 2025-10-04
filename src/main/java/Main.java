@@ -20,6 +20,16 @@ public class Main {
         // Map voor SyncEngine
         List<SyncEventDto> syncedGoogleEvents = EventMapper.mapGoogleEventsToSyncEventDto(events);
 
+        for(SyncEventDto eventDto : syncedGoogleEvents) {
+            System.out.println(eventDto.id);
+            System.out.println(eventDto.title);
+            System.out.println(eventDto.description);
+            System.out.println(eventDto.created);
+            System.out.println(eventDto.startDateTime);
+            System.out.println(eventDto.endDateTime);
+        }
+//        EventMapper.mapGoogleEventsToSyncEventDto(events);
+
         // Versturen en vergelijken met DB State
 
         // IF New, Updated of Removed => Agenda's syncen
