@@ -1,4 +1,4 @@
-package Calendar.Google.Models;
+package calendar.google.models;
 
 public class Attendee {
     public String email;

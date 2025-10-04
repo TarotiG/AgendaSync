@@ -1,14 +1,20 @@
-package Calendar.Sync;
+package calendar.google;
 
-import Calendar.Google.Enums.Status;
-import Calendar.Google.Enums.Visibility;
-import Calendar.Google.Models.Attachment;
-import Calendar.Google.Models.Attendee;
+import calendar.google.enums.Status;
+import calendar.google.enums.Visibility;
+import calendar.google.models.Attachment;
+import calendar.google.models.Attendee;
 import com.google.api.client.util.DateTime;
 
 import java.util.List;
 
-public class SyncEventDto {
+/*
+Map ontvangen data vanuit google's calendar webhook naar dit DTO voor verdere verwerking in db en SE
+
+OMBOUWEN NAAR GOOGLE SPECIFIEK
+HET IS NU HETZELFDE ALS HET SYNCDTO
+ */
+public class GoogleEventDto {
     public String id;
     public String title;
     public String description;

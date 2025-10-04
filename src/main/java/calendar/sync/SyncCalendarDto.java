@@ -1,6 +1,6 @@
-package Calendar.Sync;
+package calendar.sync;
 
-import Calendar.Interfaces.CalendarDto;
+import calendar.interfaces.CalendarDto;
 
 public class SyncCalendarDto implements CalendarDto {
     private String id;

@@ -1,4 +1,4 @@
-package Calendar.Interfaces;
+package calendar.interfaces;
 
 public interface CalendarDto {
 }

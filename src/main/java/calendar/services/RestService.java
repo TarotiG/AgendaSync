@@ -1,4 +1,4 @@
-package Calendar.Services;
+package calendar.services;
 
 /*
 Service voor het afhandelen van API calls;

@@ -1,8 +1,5 @@
-package Calendar.Google;
+package calendar.google;
 
-import Calendar.Interfaces.CalendarDataInterface;
-import Calendar.Interfaces.CalendarDto;
-import Calendar.Mappers.CalendarMapper;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -28,7 +25,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-public class GoogleCalendarService implements CalendarDataInterface {
+public class GoogleCalendarService {
     /**
      * Application name.
      */
@@ -79,44 +76,25 @@ public class GoogleCalendarService implements CalendarDataInterface {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    public CalendarDto connectToPlatform() throws IOException, GeneralSecurityException {
+    public Calendar connectToPlatform() throws IOException, GeneralSecurityException {
 
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Calendar service =
-                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        return new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                         .setApplicationName(APPLICATION_NAME)
                         .build();
-
-        // NOG NIET UITGEWERKT
-        return CalendarMapper.mapGoogleCalendarToSyncDto(service);
     }
 
     // Webhook funcionaliteit toevoegen
-    public void retrieveCalendarItems(CalendarDto calendarDto)  {
+    public List<Event> retrieveAllCalendarItems(Calendar calendar) throws IOException  {
         DateTime now = new DateTime(System.currentTimeMillis());
-        calendarDto.getClass(); // eruit halen later
 
-        // functie ophalen events aanpassen
-//        Events events = service.events().list("primary")
-//                .setMaxResults(10)
-//                .setTimeMin(now)
-//                .setOrderBy("startTime")
-//                .setSingleEvents(true)
-//                .execute();
-//        List<Event> items = events.getItems();
+        Events events = calendar.events().list("primary")
+                .setTimeMin(now)
+                .setOrderBy("startTime")
+                .setSingleEvents(true)
+                .execute();
 
-//        if (items.isEmpty()) {
-//            System.out.println("No upcoming events found.");
-//        } else {
-//            System.out.println("Upcoming events");
-//            for (Event event : items) {
-//                DateTime start = event.getStart().getDateTime();
-//                if (start == null) {
-//                    start = event.getStart().getDate();
-//                }
-//                System.out.printf("%s (%s)\n", event.getSummary(), start);
-//            }
-//        }
+        return events.getItems();
     }
 
     public void sortCalendarItemsToDate() throws ExecutionControl.NotImplementedException {

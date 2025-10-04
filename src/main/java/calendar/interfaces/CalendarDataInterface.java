@@ -1,6 +1,5 @@
-package Calendar.Interfaces;
+package calendar.interfaces;
 
-import com.google.api.services.calendar.Calendar;
 import jdk.jshell.spi.ExecutionControl;
 
 import java.io.IOException;
