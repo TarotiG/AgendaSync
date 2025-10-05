@@ -21,8 +21,8 @@ public class SyncEventDto extends VEvent {
     public String title;
     public String description;
     public String location;
-    public EventDateTime startDateTime; // conversie naar DateTime maken
-    public EventDateTime endDateTime; // conversie naar DateTime maken
+    public String startDateTime; // conversie naar DateTime maken
+    public String endDateTime; // conversie naar DateTime maken
     public DateTime timeZone;
     public String recurrence;
     public String organizerEmail;

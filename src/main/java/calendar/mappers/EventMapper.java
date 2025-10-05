@@ -29,8 +29,8 @@ public class EventMapper {
             syncEventDto.description = event.getDescription();
             syncEventDto.created = event.getCreated();
             syncEventDto.updated = event.getUpdated();
-            syncEventDto.startDateTime = event.getStart();
-            syncEventDto.endDateTime = event.getEnd();
+//            syncEventDto.startDateTime = event.getStart();
+//            syncEventDto.endDateTime = event.getEnd();
             syncEventDto.location = event.getLocation();
             syncEventDto.iCalUID = event.getICalUID();
             syncEventDto.eventOrigin = CalendarType.GOOGLE;
@@ -42,8 +42,18 @@ public class EventMapper {
         return syncEventDtoList;
     }
 
-    public static List<Event> mapSyncEventDtoBackToGoogleEvent(List<SyncEventDto> syncEventDtos) {
+    public static List<Event> mapSyncEventsDtoBackToGoogleEvents(List<SyncEventDto> syncEventDtos) {
         return new ArrayList<>();
+    }
+
+    public static Event mapSyncEventDtoBackToGoogleEvent(SyncEventDto event) {
+        Event googleEvent = new Event();
+
+        googleEvent.setSummary(event.title);
+//        googleEvent.setStart(event.startDateTime);
+//        googleEvent.setEnd(event.endDateTime);
+
+        return googleEvent;
     }
 
      public static SyncCalendarDto mapAppleCalendarToSyncDto() {
