@@ -4,12 +4,19 @@ import calendar.google.enums.Status;
 import calendar.google.enums.Visibility;
 import calendar.google.models.Attachment;
 import calendar.google.models.Attendee;
+
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
 
+import net.fortuna.ical4j.model.component.VEvent;
+
 import java.util.List;
 
-public class SyncEventDto {
+/**
+ * Deze Dto wordt gebruikt om naar de database te verzenden ter vergelijking
+ * Het is afgeleid van de VEvent model van ical4j, wat nodig is om te voldoen aan CALDAV.
+ */
+public class SyncEventDto extends VEvent {
     public String id;
     public String title;
     public String description;

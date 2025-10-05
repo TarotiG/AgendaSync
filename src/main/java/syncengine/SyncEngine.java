@@ -3,16 +3,25 @@ package syncengine;
 import calendar.google.GoogleCalendarService;
 import calendar.mappers.EventMapper;
 import calendar.sync.SyncEventDto;
+
+import net.fortuna.ical4j.model.component.VEvent;
+import syncengine.services.EventService;
+
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SyncEngine {
-    final GoogleCalendarService _googleCalendarService = new GoogleCalendarService();
 
+    // SERVICES
+    final GoogleCalendarService _googleCalendarService = new GoogleCalendarService();
+    final EventService _eventService = new EventService();
+
+    // METHODS
     /**
      * Ontvangt alle Google Events van een Google Calendar en mapt deze naar een SyncEngine Events
      * @return Lijst van SyncEngine Events
@@ -22,6 +31,27 @@ public class SyncEngine {
         List<Event> googleEvents = _googleCalendarService.retrieveAllCalendarItems(calendar);
 
         return EventMapper.mapGoogleEventsToSyncEventDto(googleEvents);
+    }
+
+    // UITWERKEN
+    public List<SyncEventDto> receiveAppleEvents() {
+        return new ArrayList<>();
+    }
+
+    // UITWERKEN
+    public void sendGoogleAgendaNewUpdates(List<Event> events) {
+
+        for(Event event : events) {
+            System.out.printf("Event %s has been sent to the Google Agenda!%n", event.getSummary());
+        }
+    }
+
+    // UITWERKEN
+    public void sendAppleAgendaNewUpdates(List<VEvent> events) {
+
+        for(VEvent event : events) {
+            System.out.printf("Event %s has been sent to the Google Agenda!%n", event.getSummary());
+        }
     }
 
     /**
@@ -43,14 +73,14 @@ public class SyncEngine {
     /**
      * Een Event aanmaken voor de agenda die achterloopt en terugsturen naar de achterlopende agenda
      */
-    void createEventForCalendar() {
+    void sendNewEventForCalendar() {
 
     }
 
     /**
      * Een bestaande Event updaten bij de achterlopende agenda en vervolgens terugsturen naar deze agenda
      */
-    void updateEventForCalendar() {
+    void updateExistingEventForCalendar() {
 
     }
 

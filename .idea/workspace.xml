@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="Eerste opzet SE" />
+    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="kleine aanpassing">
+      <change afterPath="$PROJECT_DIR$/src/main/java/syncengine/services/EventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/sync/SyncEventDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/sync/SyncEventDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syncengine/SyncEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syncengine/SyncEngine.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,8 +28,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -152,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1759608117805</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="kleine aanpassing">
+      <created>1759649558302</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1759649558302</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -169,14 +185,14 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First setup project" />
     <MESSAGE value="name refactor" />
-    <MESSAGE value="kleine aanpassing" />
     <MESSAGE value="eerste start aan op opzet mappers en dto's" />
     <MESSAGE value="mini aanpassing + toevoeging unversioned files" />
     <MESSAGE value="Google kant verbeterd naar daadwerkelijke flow" />
     <MESSAGE value="unversioned files" />
     <MESSAGE value="vertaalstap naar sync engine gemaakt" />
     <MESSAGE value="Eerste opzet SE" />
-    <option name="LAST_COMMIT_MESSAGE" value="Eerste opzet SE" />
+    <MESSAGE value="kleine aanpassing" />
+    <option name="LAST_COMMIT_MESSAGE" value="kleine aanpassing" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
