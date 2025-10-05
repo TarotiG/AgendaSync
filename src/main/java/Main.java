@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
         SyncEngine syncEngine = new SyncEngine();
-        var syncEngineGoogleEvents = syncEngine.receiveGoogleEvents();
+        List<SyncEventDto> syncEngineGoogleEvents = syncEngine.receiveGoogleEvents();
 
         // Versturen en vergelijken met DB State
 

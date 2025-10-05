@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="vertaalstap naar sync engine gemaakt">
-      <change afterPath="$PROJECT_DIR$/src/main/java/calendar/sync/CalendarType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/syncengine/SyncEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/google/GoogleCalendarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/GoogleCalendarService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/mappers/EventMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/mappers/EventMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/sync/SyncEventDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/sync/SyncEventDto.java" afterDir="false" />
-    </list>
+    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="Eerste opzet SE" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -152,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1759596272611</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Eerste opzet SE">
+      <created>1759608117805</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1759608117805</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -175,7 +175,8 @@
     <MESSAGE value="Google kant verbeterd naar daadwerkelijke flow" />
     <MESSAGE value="unversioned files" />
     <MESSAGE value="vertaalstap naar sync engine gemaakt" />
-    <option name="LAST_COMMIT_MESSAGE" value="vertaalstap naar sync engine gemaakt" />
+    <MESSAGE value="Eerste opzet SE" />
+    <option name="LAST_COMMIT_MESSAGE" value="Eerste opzet SE" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
