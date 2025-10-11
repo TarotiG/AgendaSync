@@ -8,6 +8,7 @@ import com.google.api.services.calendar.model.Event;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.component.VEvent;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -74,9 +75,23 @@ public class EventMapper {
         return new SyncCalendarDto();
     }
 
-    public static List<SyncEventDto> mapAppleCalDavEventToSyncDto() {
+    // VERDER UITWERKEN NOG NIET HELEMAAL GOED
+    public static List<SyncEventDto> mapAppleVEventsToSyncDtos(List<VEvent> events) {
+        ArrayList<SyncEventDto> syncEvents = new ArrayList<SyncEventDto>();
 
+        for(VEvent event : events) {
+            SyncEventDto syncEventDto = new SyncEventDto();
 
+//            syncEventDto.id = event.getId();
+            syncEventDto.getVEventSummary(event);
+            syncEventDto.getVEventDescription(event);
+            syncEventDto.getVEventCreated(event);
+            syncEventDto.getVEventStart(event);
+            syncEventDto.getVEventEnd(event);
+            syncEventDto.getVEventLocation(event);
+            syncEventDto.getVEventICalUID(event);
+            syncEventDto.eventOrigin = CalendarType.APPLE;
+        }
         return new ArrayList<>();
     }
 }

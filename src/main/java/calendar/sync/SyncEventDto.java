@@ -39,4 +39,44 @@ public class SyncEventDto {
     public List<Attachment> attachments;
     public CalendarType eventOrigin;
     public boolean existsInForeignCalendar; // mogelijk hernoemen
+
+
+    public void getVEventId(VEvent event) {
+
+    }
+
+    public void getVEventSummary(VEvent event) {
+        this.title = event.getSummary().toString();
+    }
+
+    public void getVEventDescription(VEvent event) {
+        this.description = event.getDescription().toString();
+    }
+
+    public void getVEventICalUID(VEvent event) {
+        this.iCalUID = event.getUid().toString();
+    }
+
+    public void getVEventCreated(VEvent event) {
+        this.created = new DateTime(event.getCreated().getDate());
+    }
+
+    public void getVEventStart(VEvent event) {
+        String isoStartDate = event.getStartDate().toString();
+        DateTime startDate = new DateTime(isoStartDate);
+
+        this.startDateTime = new EventDateTime().setDateTime(startDate).setTimeZone("Europe/Amsterdam");
+    }
+
+    public void getVEventEnd(VEvent event) {
+        String isoEndDate = event.getEndDate().toString();
+        DateTime endDate = new DateTime(isoEndDate);
+
+        this.startDateTime = new EventDateTime().setDateTime(endDate).setTimeZone("Europe/Amsterdam");
+    }
+
+    public void getVEventLocation(VEvent event) {
+        this.location = event.getLocation().toString();
+    }
+
 }

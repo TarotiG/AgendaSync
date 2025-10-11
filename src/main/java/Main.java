@@ -14,13 +14,17 @@ import java.util.List;
 public class Main {
 
     public static void main(String... args) throws Exception, IOException, GeneralSecurityException {
-//        SyncEngine syncEngine = new SyncEngine();
+        SyncEngine syncEngine = new SyncEngine();
 //        List<SyncEventDto> syncEngineGoogleEvents = syncEngine.receiveGoogleEvents();
-//        List<SyncEventDto> syncEngineAppleEvents = syncEngine.receiveAppleEvents();
+        List<SyncEventDto> syncEngineAppleEvents = syncEngine.receiveAppleEvents();
+
+        for(SyncEventDto event : syncEngineAppleEvents) {
+            System.out.println(event.title);
+        }
 //
 //        syncEngine.sendGoogleAgendaNewEvent(syncEngine.eventService.createNewEvent("google"));
 
-        AppleCalendarService.execute();
+//        AppleCalendarService.execute();
         // Versturen en vergelijken met DB State
 
         // IF New, Updated of Removed => Agenda's syncen

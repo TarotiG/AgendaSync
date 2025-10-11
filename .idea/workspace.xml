@@ -4,35 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="eerste opzet event sturen naar google agenda">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/AppleCalendarService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/notes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/services/AppleClientService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/utilities/IcsWriter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/utilities/XmlWriter.java" afterDir="false" />
+    <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="Google heen-en-weer gebouwd + eerste opzet apple events ontvangen">
+      <change afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/modules/ICal4jConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Calendar/Google/GoogleCalendarService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Calendar/Google/GoogleCalendarService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Calendar/Mappers/EventMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Calendar/Mappers/EventMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Calendar/Sync/SyncEventDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Calendar/Sync/SyncEventDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/google/GoogleCalendarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/GoogleCalendarService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/apple/AppleCalendarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/AppleCalendarService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/apple/services/AppleClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/services/AppleClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/apple/utilities/XmlWriter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/calendar/mappers/EventMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/mappers/EventMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/sync/SyncEventDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/sync/SyncEventDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syncengine/SyncEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syncengine/SyncEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syncengine/services/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syncengine/services/EventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokens/StoredCredential" beforeDir="false" afterPath="$PROJECT_DIR$/tokens/StoredCredential" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1759685580097</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Google heen-en-weer gebouwd + eerste opzet apple events ontvangen">
+      <created>1760181144987</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1760181144988</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -246,7 +239,8 @@
     <MESSAGE value="Eerste opzet SE" />
     <MESSAGE value="kleine aanpassing" />
     <MESSAGE value="eerste opzet event sturen naar google agenda" />
-    <option name="LAST_COMMIT_MESSAGE" value="eerste opzet event sturen naar google agenda" />
+    <MESSAGE value="Google heen-en-weer gebouwd + eerste opzet apple events ontvangen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Google heen-en-weer gebouwd + eerste opzet apple events ontvangen" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -2,7 +2,6 @@
 # Java
 # ========================================
 *.class
-*.log
 *.jar
 *.war
 *.ear
@@ -36,7 +35,6 @@ buildNumber.properties
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
-gradle-app.setting
 
 # Ignore Gradle GUI config
 gradle-app.setting

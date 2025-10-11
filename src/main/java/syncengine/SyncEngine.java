@@ -1,5 +1,6 @@
 package syncengine;
 
+import calendar.apple.AppleCalendarService;
 import calendar.google.GoogleCalendarService;
 import calendar.mappers.EventMapper;
 import calendar.sync.SyncEventDto;
@@ -19,6 +20,7 @@ public class SyncEngine {
 
     // SERVICES
     final GoogleCalendarService _googleCalendarService = new GoogleCalendarService();
+    final AppleCalendarService _appleCalendarService = new AppleCalendarService();
     public final EventService eventService = new EventService();
 
     // METHODS
@@ -33,9 +35,11 @@ public class SyncEngine {
         return EventMapper.mapGoogleEventsToSyncEventDto(googleEvents);
     }
 
-    // UITWERKEN
-    public List<SyncEventDto> receiveAppleEvents() {
-        return new ArrayList<>();
+    // AANPASSEN
+    public List<SyncEventDto> receiveAppleEvents() throws Exception {
+        List<VEvent> vEvents = _appleCalendarService.retrieveAllCalendarItems();
+
+        return EventMapper.mapAppleVEventsToSyncDtos(vEvents);
     }
 
     public void sendGoogleAgendaNewEvent(SyncEventDto event) throws IOException, GeneralSecurityException {
