@@ -1,3 +1,4 @@
+import calendar.apple.AppleCalendarService;
 import calendar.google.GoogleCalendarService;
 import calendar.mappers.EventMapper;
 
@@ -12,10 +13,14 @@ import java.util.List;
 // Omzetten naar een Spring Boot Application Main class
 public class Main {
 
-    public static void main(String... args) throws IOException, GeneralSecurityException {
-        SyncEngine syncEngine = new SyncEngine();
-        List<SyncEventDto> syncEngineGoogleEvents = syncEngine.receiveGoogleEvents();
+    public static void main(String... args) throws Exception, IOException, GeneralSecurityException {
+//        SyncEngine syncEngine = new SyncEngine();
+//        List<SyncEventDto> syncEngineGoogleEvents = syncEngine.receiveGoogleEvents();
+//        List<SyncEventDto> syncEngineAppleEvents = syncEngine.receiveAppleEvents();
+//
+//        syncEngine.sendGoogleAgendaNewEvent(syncEngine.eventService.createNewEvent("google"));
 
+        AppleCalendarService.execute();
         // Versturen en vergelijken met DB State
 
         // IF New, Updated of Removed => Agenda's syncen

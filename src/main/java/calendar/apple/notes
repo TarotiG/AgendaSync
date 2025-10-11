@@ -1,0 +1,24 @@
+apple account =
+lizzyreijnhout@icloud.com
+
+apple app specifieke ww =
+rynt-yjfr-zjnk-vnwk
+
+apple server =
+https://caldav.icloud.com
+
+
+Voorbeeld .ics bestand
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//MyJavaApp//CalDAV Client//EN
+BEGIN:VEVENT
+UID:3e2f7c40-6a91-4a5b-8d3b-1a1db14f4a23@myapp.example.com
+DTSTAMP:20251010T141500Z
+DTSTART:20251012T090000Z
+DTEND:20251012T100000Z
+SUMMARY:Test Event vanuit Java
+DESCRIPTION:Dit event is aangemaakt via CalDAV
+LOCATION:Online
+END:VEVENT
+END:VCALENDAR

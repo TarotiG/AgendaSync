@@ -3,9 +3,16 @@ package calendar.mappers;
 import calendar.sync.CalendarType;
 import calendar.sync.SyncCalendarDto;
 import calendar.sync.SyncEventDto;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.ParserException;
+import net.fortuna.ical4j.model.Calendar;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -29,8 +36,8 @@ public class EventMapper {
             syncEventDto.description = event.getDescription();
             syncEventDto.created = event.getCreated();
             syncEventDto.updated = event.getUpdated();
-//            syncEventDto.startDateTime = event.getStart();
-//            syncEventDto.endDateTime = event.getEnd();
+            syncEventDto.startDateTime = event.getStart();
+            syncEventDto.endDateTime = event.getEnd();
             syncEventDto.location = event.getLocation();
             syncEventDto.iCalUID = event.getICalUID();
             syncEventDto.eventOrigin = CalendarType.GOOGLE;
@@ -50,13 +57,26 @@ public class EventMapper {
         Event googleEvent = new Event();
 
         googleEvent.setSummary(event.title);
-//        googleEvent.setStart(event.startDateTime);
-//        googleEvent.setEnd(event.endDateTime);
+        googleEvent.setStart(event.startDateTime);
+        googleEvent.setEnd(event.endDateTime);
 
         return googleEvent;
     }
 
-     public static SyncCalendarDto mapAppleCalendarToSyncDto() {
+    public static List<DateTime> createGoogleDateTimeForEvent(String startDate, String endDate) {
+        return Arrays.asList(
+                new DateTime(startDate),
+                new DateTime(endDate)
+        );
+    }
+
+    public static SyncCalendarDto mapAppleCalendarToSyncDto() {
         return new SyncCalendarDto();
+    }
+
+    public static List<SyncEventDto> mapAppleCalDavEventToSyncDto() {
+
+
+        return new ArrayList<>();
     }
 }

@@ -13,16 +13,19 @@ import net.fortuna.ical4j.model.component.VEvent;
 import java.util.List;
 
 /**
- * Deze Dto wordt gebruikt om naar de database te verzenden ter vergelijking
- * Het is afgeleid van de VEvent model van ical4j, wat nodig is om te voldoen aan CALDAV.
+ * Deze Dto wordt gebruikt om naar de database te verzenden ter vergelijking.
+ *
+ * Nog toe te voegen functionaliteit:
+ * - Genereren van een iCalUID --> een uuid aanmaken is voldoende
+ * - iCalUID matchen met apple --> format is uuid@domain.com
  */
-public class SyncEventDto extends VEvent {
+public class SyncEventDto {
     public String id;
     public String title;
     public String description;
     public String location;
-    public String startDateTime; // conversie naar DateTime maken
-    public String endDateTime; // conversie naar DateTime maken
+    public EventDateTime startDateTime;
+    public EventDateTime endDateTime;
     public DateTime timeZone;
     public String recurrence;
     public String organizerEmail;

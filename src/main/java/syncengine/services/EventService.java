@@ -1,5 +1,6 @@
 package syncengine.services;
 
+import calendar.mappers.EventMapper;
 import calendar.sync.CalendarType;
 import calendar.sync.SyncEventDto;
 import com.google.api.client.util.DateTime;
@@ -21,9 +22,15 @@ public class EventService {
 
         switch (calendar.toLowerCase()) {
             case "google":
+                String isoStringStart = "2025-10-10T14:00:00+02:00";
+                String isoStringEnd = "2025-10-10T19:00:00+02:00";
+
+                List<DateTime> dates = EventMapper.createGoogleDateTimeForEvent(isoStringStart, isoStringEnd);
+
                 event.eventOrigin = CalendarType.GOOGLE;
-//                event.startDateTime = new EventDateTime().setDateTime("2025-10-06T10:00:00+02:00");
-//                event.endDateTime = new EventDateTime().setDateTime("2025-10-07T10:00:00+02:00");
+                event.title = "Test Item";
+                event.startDateTime = new EventDateTime().setDateTime(dates.get(0)).setTimeZone("Europe/Amsterdam");
+                event.endDateTime = new EventDateTime().setDateTime(dates.get(1)).setTimeZone("Europe/Amsterdam");
                 break;
             case "apple":
                 event.eventOrigin = CalendarType.APPLE;

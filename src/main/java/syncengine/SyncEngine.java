@@ -19,7 +19,7 @@ public class SyncEngine {
 
     // SERVICES
     final GoogleCalendarService _googleCalendarService = new GoogleCalendarService();
-    final EventService _eventService = new EventService();
+    public final EventService eventService = new EventService();
 
     // METHODS
     /**
@@ -38,12 +38,20 @@ public class SyncEngine {
         return new ArrayList<>();
     }
 
-    // UITWERKEN
-    public void sendGoogleAgendaNewUpdates(List<Event> events) {
+    public void sendGoogleAgendaNewEvent(SyncEventDto event) throws IOException, GeneralSecurityException {
+        Calendar calendar = _googleCalendarService.connectToPlatform();
 
-        for(Event event : events) {
-            System.out.printf("Event %s has been sent to the Google Agenda!%n", event.getSummary());
-        }
+        Event googleEvent = EventMapper.mapSyncEventDtoBackToGoogleEvent(event);
+        calendar.events().insert("primary", googleEvent).execute();
+        System.out.printf("Event '%s' created and sent to Google Agenda!", googleEvent.getSummary());
+    }
+
+    // UITWERKEN
+    public void sendGoogleAgendaNewUpdates(List<SyncEventDto> events) {
+
+//        for(SyncEventDto event : events) {
+//            System.out.printf("Event %s has been sent to the Google Agenda!%n", event.getSummary());
+//        }
     }
 
     // UITWERKEN
