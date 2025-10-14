@@ -1,15 +1,13 @@
 package syncengine.services;
 
-import calendar.mappers.EventMapper;
-import calendar.sync.CalendarType;
-import calendar.sync.SyncEventDto;
+import syncengine.mappers.EventMapper;
+import syncengine.sync.CalendarType;
+import syncengine.sync.SyncEventDto;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
 
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * De service die het handelen van de events regelt voor beide Google en Apple
@@ -21,20 +19,16 @@ public class EventService {
         SyncEventDto event = new SyncEventDto();
 
         switch (calendar.toLowerCase()) {
-            case "google":
+            case "google" -> {
                 String isoStringStart = "2025-10-10T14:00:00+02:00";
                 String isoStringEnd = "2025-10-10T19:00:00+02:00";
-
                 List<DateTime> dates = EventMapper.createGoogleDateTimeForEvent(isoStringStart, isoStringEnd);
-
-                event.eventOrigin = CalendarType.GOOGLE;
+                event.setEventOrigin("google");
                 event.title = "Test Item";
                 event.startDateTime = new EventDateTime().setDateTime(dates.get(0)).setTimeZone("Europe/Amsterdam");
                 event.endDateTime = new EventDateTime().setDateTime(dates.get(1)).setTimeZone("Europe/Amsterdam");
-                break;
-            case "apple":
-                event.eventOrigin = CalendarType.APPLE;
-                break;
+            }
+            case "apple" -> event.setEventOrigin("apple");
         }
         return event;
     }

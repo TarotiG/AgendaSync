@@ -2,8 +2,8 @@ package syncengine;
 
 import calendar.apple.AppleCalendarService;
 import calendar.google.GoogleCalendarService;
-import calendar.mappers.EventMapper;
-import calendar.sync.SyncEventDto;
+import syncengine.mappers.EventMapper;
+import syncengine.sync.SyncEventDto;
 
 import net.fortuna.ical4j.model.component.VEvent;
 import syncengine.services.EventService;
@@ -13,7 +13,6 @@ import com.google.api.services.calendar.model.Event;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SyncEngine {

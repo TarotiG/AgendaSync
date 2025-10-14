@@ -1,4 +1,4 @@
-package calendar.sync;
+package syncengine.sync;
 
 public enum CalendarType {
     GOOGLE,

@@ -1,13 +1,11 @@
 package calendar.apple.services;
 
 import calendar.apple.modules.ICal4jConfig;
-import calendar.sync.SyncEventDto;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.util.CompatibilityHints;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -68,7 +66,7 @@ public class AppleClientService {
 
         ICal4jConfig.setICal4jParseConfig();
 
-        ArrayList<VEvent> vEvents = new ArrayList<VEvent>();
+        ArrayList<VEvent> vEvents = new ArrayList<>();
 
         String xml = response.body();
         Document doc = DocumentBuilderFactory.newInstance()
@@ -94,7 +92,6 @@ public class AppleClientService {
             Calendar calendar = builder.build(new StringReader(ics));
             CalendarComponent event = calendar.getComponent(VEvent.VEVENT);
             vEvents.add((VEvent) event);
-            System.out.println(event);
         }
 
         return vEvents;

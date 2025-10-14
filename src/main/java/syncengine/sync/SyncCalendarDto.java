@@ -1,4 +1,4 @@
-package calendar.sync;
+package syncengine.sync;
 
 import calendar.interfaces.CalendarDto;
 

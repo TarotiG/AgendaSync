@@ -1,4 +1,4 @@
-package calendar.sync;
+package syncengine.sync;
 
 import calendar.google.enums.Status;
 import calendar.google.enums.Visibility;
@@ -9,6 +9,7 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
 
 import net.fortuna.ical4j.model.component.VEvent;
+import syncengine.utilities.DateTimeMapper;
 
 import java.util.List;
 
@@ -37,24 +38,22 @@ public class SyncEventDto {
     public Status status;
     public String iCalUID;
     public List<Attachment> attachments;
-    public CalendarType eventOrigin;
+    private CalendarType eventOrigin;
     public boolean existsInForeignCalendar; // mogelijk hernoemen
 
 
-    public void getVEventId(VEvent event) {
-
-    }
-
     public void getVEventSummary(VEvent event) {
-        this.title = event.getSummary().toString();
+        this.title = event.getSummary().getValue();
     }
 
     public void getVEventDescription(VEvent event) {
-        this.description = event.getDescription().toString();
+        this.description = event.getDescription() != null
+            ? event.getDescription().getValue()
+            : null;
     }
 
     public void getVEventICalUID(VEvent event) {
-        this.iCalUID = event.getUid().toString();
+        this.iCalUID = event.getUid().getValue();
     }
 
     public void getVEventCreated(VEvent event) {
@@ -62,21 +61,33 @@ public class SyncEventDto {
     }
 
     public void getVEventStart(VEvent event) {
-        String isoStartDate = event.getStartDate().toString();
-        DateTime startDate = new DateTime(isoStartDate);
+        String isoStartDate = event.getStartDate().getValue();
+        DateTime startDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoStartDate, "Europe/Amsterdam");
 
-        this.startDateTime = new EventDateTime().setDateTime(startDate).setTimeZone("Europe/Amsterdam");
+        this.startDateTime = new EventDateTime().setDateTime(startDate);
     }
 
     public void getVEventEnd(VEvent event) {
-        String isoEndDate = event.getEndDate().toString();
-        DateTime endDate = new DateTime(isoEndDate);
+        String isoEndDate = event.getEndDate().getValue();
+        DateTime endDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoEndDate, "Europe/Amsterdam");
 
-        this.startDateTime = new EventDateTime().setDateTime(endDate).setTimeZone("Europe/Amsterdam");
+        this.endDateTime = new EventDateTime().setDateTime(endDate);
     }
 
     public void getVEventLocation(VEvent event) {
-        this.location = event.getLocation().toString();
+        this.location = event.getLocation() != null
+                ? event.getLocation().getValue()
+                : null;
+    }
+
+    public void setEventOrigin(String calendar) {
+        this.eventOrigin = calendar.equals("google")
+                ? CalendarType.GOOGLE
+                : CalendarType.APPLE;
+    }
+
+    public CalendarType getEventOrigin() {
+        return this.eventOrigin;
     }
 
 }

@@ -1,17 +1,11 @@
-package calendar.mappers;
+package syncengine.mappers;
 
-import calendar.sync.CalendarType;
-import calendar.sync.SyncCalendarDto;
-import calendar.sync.SyncEventDto;
+import syncengine.sync.SyncCalendarDto;
+import syncengine.sync.SyncEventDto;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
-import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.data.ParserException;
-import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,14 +28,14 @@ public class EventMapper {
             SyncEventDto syncEventDto = new SyncEventDto();
             syncEventDto.id = event.getId();
             syncEventDto.title = event.getSummary();
-            syncEventDto.description = event.getDescription();
+//            syncEventDto.description = event.getDescription();
             syncEventDto.created = event.getCreated();
             syncEventDto.updated = event.getUpdated();
             syncEventDto.startDateTime = event.getStart();
             syncEventDto.endDateTime = event.getEnd();
             syncEventDto.location = event.getLocation();
             syncEventDto.iCalUID = event.getICalUID();
-            syncEventDto.eventOrigin = CalendarType.GOOGLE;
+            syncEventDto.setEventOrigin("google");
 //            syncEventDto.organizerEmail = event.getOrganizer();
 
             syncEventDtoList.add(syncEventDto);
@@ -75,14 +69,12 @@ public class EventMapper {
         return new SyncCalendarDto();
     }
 
-    // VERDER UITWERKEN NOG NIET HELEMAAL GOED
     public static List<SyncEventDto> mapAppleVEventsToSyncDtos(List<VEvent> events) {
-        ArrayList<SyncEventDto> syncEvents = new ArrayList<SyncEventDto>();
+        ArrayList<SyncEventDto> syncEvents = new ArrayList<>();
 
         for(VEvent event : events) {
             SyncEventDto syncEventDto = new SyncEventDto();
 
-//            syncEventDto.id = event.getId();
             syncEventDto.getVEventSummary(event);
             syncEventDto.getVEventDescription(event);
             syncEventDto.getVEventCreated(event);
@@ -90,8 +82,10 @@ public class EventMapper {
             syncEventDto.getVEventEnd(event);
             syncEventDto.getVEventLocation(event);
             syncEventDto.getVEventICalUID(event);
-            syncEventDto.eventOrigin = CalendarType.APPLE;
+            syncEventDto.setEventOrigin("apple");
+
+            syncEvents.add(syncEventDto);
         }
-        return new ArrayList<>();
+        return syncEvents;
     }
 }
