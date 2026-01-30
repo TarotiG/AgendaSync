@@ -2,6 +2,9 @@ package syncengine;
 
 import calendar.apple.AppleCalendarService;
 import calendar.google.GoogleCalendarService;
+import net.fortuna.ical4j.model.Date;
+import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.parameter.Value;
 import syncengine.mappers.EventMapper;
 import syncengine.sync.SyncEventDto;
 
@@ -13,6 +16,8 @@ import com.google.api.services.calendar.model.Event;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SyncEngine {
@@ -49,20 +54,39 @@ public class SyncEngine {
         System.out.printf("Event '%s' created and sent to Google Agenda!", googleEvent.getSummary());
     }
 
-    // UITWERKEN
-    public void sendGoogleAgendaNewUpdates(List<SyncEventDto> events) {
+    public void sendGoogleAgendaNewUpdates(List<SyncEventDto> syncEventDtoList) throws IOException, GeneralSecurityException {
+        Calendar calendar = _googleCalendarService.connectToPlatform();
 
-//        for(SyncEventDto event : events) {
-//            System.out.printf("Event %s has been sent to the Google Agenda!%n", event.getSummary());
-//        }
+        List<Event> events = EventMapper.mapSyncEventsDtoBackToGoogleEvents(syncEventDtoList);
+
+        events.forEach( (event) -> {
+            try {
+                calendar.events().insert("primary", event).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.printf("Event '%s' created on date %s and has been sent to Google Agenda!\n", event.getSummary(), event.getStart());
+        });
+
+    }
+
+    public void sendAppleAgendaNewEvent(SyncEventDto event) {
+
     }
 
     // UITWERKEN
-    public void sendAppleAgendaNewUpdates(List<VEvent> events) {
+    public void sendAppleAgendaNewUpdates(List<SyncEventDto> events) throws ParseException {
 
-        for(VEvent event : events) {
-            System.out.printf("Event %s has been sent to the Google Agenda!%n", event.getSummary());
-        }
+        List<VEvent> appleEvents = EventMapper.mapSyncEventDtoBackToAppleVEvents(events);
+
+        appleEvents.forEach( (event) -> {
+            try {
+                _appleCalendarService.sendIcsToAppleCalendar(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.printf("Event '%s' is created and has been sent to Apple Agenda!\n", event.getSummary().getValue());
+        });
     }
 
     /**
@@ -99,7 +123,7 @@ public class SyncEngine {
      * Als er twee vergelijkbare en/of dezelfde Events worden aangemaakt;
      * moet 1 van de 2 "prioriteit" krijgen. Vervolgens moet er bepaald worden welke actie moet volgen
      */
-    void solveConflictingEvents() {
+    void validateConflictingEvents() {
 
     }
 

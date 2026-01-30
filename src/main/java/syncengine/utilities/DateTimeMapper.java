@@ -32,5 +32,4 @@ public class DateTimeMapper {
 
         return new DateTime(zdt.toInstant().toEpochMilli());
     }
-
 }

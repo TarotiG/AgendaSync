@@ -1,10 +1,17 @@
 package syncengine.mappers;
 
+import com.google.api.services.calendar.model.EventDateTime;
+import net.fortuna.ical4j.model.Date;
+import net.fortuna.ical4j.model.property.*;
 import syncengine.sync.SyncCalendarDto;
 import syncengine.sync.SyncEventDto;
+
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
+
 import net.fortuna.ical4j.model.component.VEvent;
+
+import java.text.ParseException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,8 +51,15 @@ public class EventMapper {
         return syncEventDtoList;
     }
 
-    public static List<Event> mapSyncEventsDtoBackToGoogleEvents(List<SyncEventDto> syncEventDtos) {
-        return new ArrayList<>();
+    public static List<Event> mapSyncEventsDtoBackToGoogleEvents(List<SyncEventDto> syncEventDtoList) {
+        ArrayList<Event> googleEvents = new ArrayList<>();
+
+        for (SyncEventDto event : syncEventDtoList) {
+            Event googleEvent = EventMapper.mapSyncEventDtoBackToGoogleEvent(event);
+            googleEvents.add(googleEvent);
+        }
+
+        return googleEvents;
     }
 
     public static Event mapSyncEventDtoBackToGoogleEvent(SyncEventDto event) {
@@ -86,6 +100,33 @@ public class EventMapper {
 
             syncEvents.add(syncEventDto);
         }
+
         return syncEvents;
+    }
+
+    public static List<VEvent> mapSyncEventDtoBackToAppleVEvents(List<SyncEventDto> events) throws ParseException {
+        ArrayList<VEvent> appleEvents = new ArrayList<>();
+
+        for (SyncEventDto event : events) {
+            VEvent appleEvent = new VEvent();
+
+            appleEvent.getProperties().add(new Uid(event.iCalUID));
+//            appleEvent.getProperties().add(new Created(event.created));
+            appleEvent.getProperties().add(new DtStart(convertDateToCalDavDate(event.startDateTime)));
+            appleEvent.getProperties().add(new DtEnd(convertDateToCalDavDate(event.endDateTime)));
+            appleEvent.getProperties().add(new Summary(event.title));
+
+            appleEvents.add(appleEvent);
+        }
+
+        return appleEvents;
+    }
+
+    public static Date convertDateToCalDavDate(EventDateTime syncEventDate) throws ParseException {
+        DateTime googleDateTime = syncEventDate.getDateTime();
+
+        java.util.Date utilDate = new Date(googleDateTime.getValue());
+
+        return new Date(utilDate);
     }
 }

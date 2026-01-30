@@ -11,7 +11,10 @@ import com.google.api.services.calendar.model.EventDateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import syncengine.utilities.DateTimeMapper;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Deze Dto wordt gebruikt om naar de database te verzenden ter vergelijking.
@@ -90,4 +93,16 @@ public class SyncEventDto {
         return this.eventOrigin;
     }
 
+    public DateTime setCreatedToNow() {
+        LocalDate date = LocalDate.now();
+
+        long milliSeconds = date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return new DateTime(milliSeconds);
+    }
+
+    public void setICalUID() {
+        if(this.iCalUID == null || this.iCalUID.equals("")) {
+            this.iCalUID = UUID.randomUUID().toString();
+        }
+    }
 }
