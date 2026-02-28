@@ -41,6 +41,7 @@ public class SyncEventDto {
     public Status status;
     public String iCalUID;
     public List<Attachment> attachments;
+    public String syncId; // Unique identifier to track events across calendar syncs and prevent duplicates
     private CalendarType eventOrigin;
     public boolean existsInForeignCalendar; // mogelijk hernoemen
 

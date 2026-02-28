@@ -1,7 +1,7 @@
 package syncengine.services;
 
 import syncengine.mappers.EventMapper;
-import syncengine.sync.CalendarType;
+// import syncengine.sync.CalendarType;
 import syncengine.sync.SyncEventDto;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;

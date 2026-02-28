@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: AgendaSync
+  profiles:
+    active: local
+
+
+logging:
+  level:
+    root: INFO
+    sync.agenda: DEBUG
+    calendar: DEBUG
+    syncengine: DEBUG
+  file:
+    name: logs/agendasyc.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+agendasyc:
+  sync:
+    apple-poll-interval-minutes: 15
+    sync-state-file: ./sync-state.properties
+  webhook:
+    google-channel-enabled: true
+    validate-headers: true

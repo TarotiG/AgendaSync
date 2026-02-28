@@ -1,38 +1,33 @@
-import calendar.apple.AppleCalendarService;
-import syncengine.sync.SyncEventDto;
-import syncengine.SyncEngine;
-import syncengine.utilities.TestDataGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.List;
-
-// Omzetten naar een Spring Boot Application Main class
+/**
+ * Main entry point for AgendaSync Spring Boot Application.
+ * 
+ * This application synchronizes events between Apple Calendar and Google Calendar:
+ * - Polls Apple Calendar every 15 minutes for new/updated events
+ * - Receives Google Calendar webhook notifications for real-time updates
+ * - Syncs events bidirectionally to maintain calendar parity
+ * 
+ * Features:
+ * - Spring Boot Auto-configuration for dependency management
+ * - Scheduled polling for Apple Calendar (CalDAV)
+ * - REST endpoint for Google Calendar webhooks
+ * - SLF4J logging with Logback configuration
+ * - Environment-based secrets management
+ * - Stateful sync tracking to minimize API calls
+ */
+@SpringBootApplication(scanBasePackages = {"sync"})
+@EnableScheduling
 public class Main {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String... args) throws Exception, IOException, GeneralSecurityException {
-        SyncEngine syncEngine = new SyncEngine();
-        List<SyncEventDto> syncEngineGoogleEvents = syncEngine.receiveGoogleEvents();
-        List<SyncEventDto> syncEngineAppleEvents = syncEngine.receiveAppleEvents();
-
-        // Vergelijk nieuwe events met bestaande events in db
-        // 1. Ophalen syncEvents van db
-        // 2. Google events vergelijken
-        // 3. Apple events vergelijken
-
-
-
-        // IF New, Updated of Removed => sturen naar db en agenda's syncen
-        // ELSE niks
-
-        syncEngine.sendGoogleAgendaNewEvent(syncEngine.eventService.createNewEvent("google"));
-        syncEngine.sendGoogleAgendaNewUpdates(syncEngineAppleEvents);
-
-        ArrayList<SyncEventDto> events = new ArrayList<>();
-        events.add(TestDataGenerator.generateSyncEventDto());
-        syncEngine.sendAppleAgendaNewUpdates(events);
+    public static void main(String[] args) {
+        logger.info("Starting AgendaSync Application...");
+        SpringApplication.run(Main.class, args);
+        logger.info("AgendaSync Application started successfully");
     }
 }

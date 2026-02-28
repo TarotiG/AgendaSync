@@ -3,7 +3,6 @@ package syncengine.mappers;
 import com.google.api.services.calendar.model.EventDateTime;
 import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.property.*;
-import syncengine.sync.SyncCalendarDto;
 import syncengine.sync.SyncEventDto;
 
 import com.google.api.client.util.DateTime;
@@ -15,7 +14,10 @@ import java.text.ParseException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+// import java.util.UUID;
 
 /*
 Mapper class om Google Calendar Event objecten en Apple Calendar Event objecten te vertalen
@@ -42,6 +44,16 @@ public class EventMapper {
             syncEventDto.endDateTime = event.getEnd();
             syncEventDto.location = event.getLocation();
             syncEventDto.iCalUID = event.getICalUID();
+            
+            // Extract or generate syncId for duplicate prevention
+            if (event.getExtendedProperties() != null && 
+                event.getExtendedProperties().getPrivate() != null &&
+                event.getExtendedProperties().getPrivate().containsKey("syncId")) {
+                syncEventDto.syncId = event.getExtendedProperties().getPrivate().get("syncId");
+            } else {
+                syncEventDto.syncId = "google_" + event.getId();
+            }
+            
             syncEventDto.setEventOrigin("google");
 //            syncEventDto.organizerEmail = event.getOrganizer();
 
@@ -68,6 +80,16 @@ public class EventMapper {
         googleEvent.setSummary(event.title);
         googleEvent.setStart(event.startDateTime);
         googleEvent.setEnd(event.endDateTime);
+        
+        // Set syncId in extended properties for duplicate prevention
+        if (event.syncId != null) {
+            Map<String, String> privateProperties = new HashMap<>();
+            privateProperties.put("syncId", event.syncId);
+            com.google.api.services.calendar.model.Event.ExtendedProperties extendedProps = 
+                new com.google.api.services.calendar.model.Event.ExtendedProperties();
+            extendedProps.setPrivate(privateProperties);
+            googleEvent.setExtendedProperties(extendedProps);
+        }
 
         return googleEvent;
     }
@@ -77,10 +99,6 @@ public class EventMapper {
                 new DateTime(startDate),
                 new DateTime(endDate)
         );
-    }
-
-    public static SyncCalendarDto mapAppleCalendarToSyncDto() {
-        return new SyncCalendarDto();
     }
 
     public static List<SyncEventDto> mapAppleVEventsToSyncDtos(List<VEvent> events) {
@@ -96,6 +114,17 @@ public class EventMapper {
             syncEventDto.getVEventEnd(event);
             syncEventDto.getVEventLocation(event);
             syncEventDto.getVEventICalUID(event);
+            
+            // Extract or generate syncId for duplicate prevention
+            net.fortuna.ical4j.model.property.XProperty syncIdProperty = 
+                (net.fortuna.ical4j.model.property.XProperty) event.getProperties()
+                    .getProperty("X-AGENDASYC-SYNCID");
+            if (syncIdProperty != null && syncIdProperty.getValue() != null) {
+                syncEventDto.syncId = syncIdProperty.getValue();
+            } else {
+                syncEventDto.syncId = "apple_" + event.getUid().getValue();
+            }
+            
             syncEventDto.setEventOrigin("apple");
 
             syncEvents.add(syncEventDto);
@@ -115,6 +144,11 @@ public class EventMapper {
             appleEvent.getProperties().add(new DtStart(convertDateToCalDavDate(event.startDateTime)));
             appleEvent.getProperties().add(new DtEnd(convertDateToCalDavDate(event.endDateTime)));
             appleEvent.getProperties().add(new Summary(event.title));
+            
+            // Add syncId as X-property for duplicate prevention
+            if (event.syncId != null) {
+                appleEvent.getProperties().add(new XProperty("X-AGENDASYC-SYNCID", event.syncId));
+            }
 
             appleEvents.add(appleEvent);
         }
@@ -128,5 +162,25 @@ public class EventMapper {
         java.util.Date utilDate = new Date(googleDateTime.getValue());
 
         return new Date(utilDate);
+    }
+
+    /**
+     * Extracts the UUID portion from a source-based syncId for verification purposes.
+     * Supports formats: "google_<eventId>" and "apple_<uid>"
+     * @param syncId The source-based syncId
+     * @return The UUID portion after the source prefix, or the original syncId if no prefix found
+     */
+    public static String extractUuidForVerification(String syncId) {
+        if (syncId == null || syncId.isEmpty()) {
+            return null;
+        }
+        
+        if (syncId.startsWith("google_")) {
+            return syncId.substring(7); // Remove "google_" prefix
+        } else if (syncId.startsWith("apple_")) {
+            return syncId.substring(6); // Remove "apple_" prefix
+        }
+        
+        return syncId;
     }
 }
