@@ -20,7 +20,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * - Environment-based secrets management
  * - Stateful sync tracking to minimize API calls
  */
-@SpringBootApplication(scanBasePackages = {"sync"})
+@SpringBootApplication(scanBasePackages = {
+    "sync",
+    "scheduler",
+    "calendar",
+    "rest",
+    "config",
+    "syncengine"
+})
 @EnableScheduling
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);

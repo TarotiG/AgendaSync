@@ -11,7 +11,7 @@ import net.fortuna.ical4j.model.component.VEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.HttpURLConnection;
+// import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -30,6 +30,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.w3c.dom.NodeList;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+@Service
 public class AppleClientService {
 
     public static class HttpPropFind extends HttpEntityEnclosingRequestBase {

@@ -9,9 +9,12 @@ import com.google.api.services.calendar.model.EventDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 /**
  * De service die het handelen van de events regelt voor beide Google en Apple
  */
+@Service
 public class EventService {
     HashMap<String, SyncEventDto> updateEventMap = new HashMap<>();
 

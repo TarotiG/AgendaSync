@@ -2,17 +2,19 @@ package calendar.apple;
 
 import calendar.apple.services.AppleClientService;
 
-import java.io.File;
-import java.io.FileWriter;
+// import java.io.File;
+// import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpClient;
+// import java.net.URISyntaxException;
+// import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import net.fortuna.ical4j.model.Calendar;
@@ -20,30 +22,31 @@ import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+// import org.apache.http.auth.AuthScope;
+// import org.apache.http.auth.UsernamePasswordCredentials;
+// import org.apache.http.client.CredentialsProvider;
+// import org.apache.http.client.methods.HttpUriRequest;
+// import org.apache.http.impl.client.BasicCredentialsProvider;
+// import org.apache.http.impl.client.CloseableHttpClient;
+// import org.apache.http.impl.client.HttpClients;
+// import org.apache.http.util.EntityUtils;
 
 //import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.w3c.dom.*;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.util.ArrayList;
-import java.util.List;
+// import org.apache.http.client.methods.CloseableHttpResponse;
+// import org.apache.http.auth.AuthScope;
+// import org.apache.http.auth.UsernamePasswordCredentials;
+// import org.apache.http.client.CredentialsProvider;
+// import org.apache.http.entity.StringEntity;
+// import org.apache.http.impl.client.BasicCredentialsProvider;
+// import org.apache.http.impl.client.CloseableHttpClient;
+// import org.apache.http.impl.client.HttpClients;
+// import org.apache.http.util.EntityUtils;
+// import org.w3c.dom.*;
+// import javax.xml.parsers.DocumentBuilderFactory;
+// import java.util.ArrayList;
+// import java.util.List;
 
+@Service
 public class AppleCalendarService {
 
     public void connectToPlatform() {

@@ -37,7 +37,6 @@ public class ApplicationConfig {
      * 
      * @return GoogleCalendarService singleton instance
      */
-    @Bean
     public GoogleCalendarService googleCalendarService() {
         logger.debug("Initializing GoogleCalendarService bean");
         return new GoogleCalendarService();
@@ -53,7 +52,6 @@ public class ApplicationConfig {
      * 
      * @return AppleCalendarService singleton instance
      */
-    @Bean
     public AppleCalendarService appleCalendarService() {
         logger.debug("Initializing AppleCalendarService bean");
         return new AppleCalendarService();
@@ -69,7 +67,6 @@ public class ApplicationConfig {
      * 
      * @return EventService singleton instance
      */
-    @Bean
     public EventService eventService() {
         logger.debug("Initializing EventService bean");
         return new EventService();
@@ -90,7 +87,7 @@ public class ApplicationConfig {
                                   AppleCalendarService appleCalendarService,
                                   EventService eventService) {
         logger.debug("Initializing SyncEngine bean with dependencies");
-        SyncEngine syncEngine = new SyncEngine();
+        SyncEngine syncEngine = new SyncEngine(googleCalendarService, appleCalendarService, eventService);
         // SyncEngine will auto-wire these services
         return syncEngine;
     }

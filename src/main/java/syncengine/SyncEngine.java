@@ -27,10 +27,20 @@ public class SyncEngine {
 
     private static final Logger logger = LoggerFactory.getLogger(SyncEngine.class);
 
-    // SERVICES
-    final GoogleCalendarService _googleCalendarService = new GoogleCalendarService();
-    final AppleCalendarService _appleCalendarService = new AppleCalendarService();
-    public final EventService eventService = new EventService();
+    // // SERVICES
+    final GoogleCalendarService _googleCalendarService;
+    final AppleCalendarService _appleCalendarService;
+    public final EventService _eventService;
+
+    public SyncEngine(
+        GoogleCalendarService googleCalendarService,
+        AppleCalendarService appleCalendarService,
+        EventService eventService
+    ) {
+        this._googleCalendarService = googleCalendarService;
+        this._appleCalendarService = appleCalendarService;
+        this._eventService = eventService;
+    }
 
     // METHODS
     /**
@@ -181,51 +191,5 @@ public class SyncEngine {
             }
         });
         logger.info("Completed sending {} events to Apple Calendar", appleEvents.size());
-    }
-
-    /**
-     * Event verzenden naar database
-     */
-    void sendEventToDb() {
-
-    }
-
-    /**
-     * Status van een opgestuurde Event valideren of het al bestaat.
-     * Indien het al bestaat voor 1 Agenda; teruggeven wat de volgende actie moet zijn
-     * voor de achterlopende agenda
-     */
-    void validateStatusEventInDb() {
-
-    }
-
-    /**
-     * Een Event aanmaken voor de agenda die achterloopt en terugsturen naar de achterlopende agenda
-     */
-    void sendNewEventForCalendar() {
-
-    }
-
-    /**
-     * Een bestaande Event updaten bij de achterlopende agenda en vervolgens terugsturen naar deze agenda
-     */
-    void updateExistingEventForCalendar() {
-
-    }
-
-    /**
-     * Als er twee vergelijkbare en/of dezelfde Events worden aangemaakt;
-     * moet 1 van de 2 "prioriteit" krijgen. Vervolgens moet er bepaald worden welke actie moet volgen
-     */
-    void validateConflictingEvents() {
-
-    }
-
-    /**
-     * Agenda's vergelijken en valideren dat ze gesynced zijn.
-     * Indien niet gesynced; bepalen welke acties voldaan moeten worden om een "Synced" status te krijgen
-     */
-    void validateSyncedCalendars() {
-
     }
 }
