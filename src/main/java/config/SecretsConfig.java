@@ -2,6 +2,7 @@ package config;
 
 // import org.springframework.boot.context.properties.ConfigurationProperties;
 // import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
 public class SecretsConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(SecretsConfig.class);
+    private static final Dotenv dotEnv = Dotenv.load();
 
     /**
      * Bean to validate and expose Apple Calendar secrets
@@ -39,12 +41,12 @@ public class SecretsConfig {
      * @throws IllegalArgumentException if any required secret is missing
      */
     @Bean
-    public AppleCalendarSecrets appleCalendarSecrets() {
+    public static AppleCalendarSecrets appleCalendarSecrets() {
         logger.info("Loading Apple Calendar secrets from environment variables");
         
-        String appleUsr = System.getenv("APPLE_USR");
-        String appleSpecPw = System.getenv("APPLE_SPEC_PW");
-        String appleCalDavUrl = System.getenv("APPLE_CALDAV_URL");
+        String appleUsr = dotEnv.get("APPLE_USR");
+        String appleSpecPw = dotEnv.get("APPLE_SPEC_PW");
+        String appleCalDavUrl = dotEnv.get("APPLE_CALDAV_URL");
 
         if (appleUsr == null || appleUsr.isEmpty()) {
             throw new IllegalArgumentException("Missing required environment variable: APPLE_USR");
@@ -72,7 +74,7 @@ public class SecretsConfig {
     @Bean
     public GoogleWebhookSecrets googleWebhookSecrets() {
         logger.info("Loading Google Webhook secrets from environment variables");
-        
+
         String channelId = System.getenv("WEBHOOK_GOOGLE_CHANNEL_ID");
         String channelToken = System.getenv("WEBHOOK_GOOGLE_CHANNEL_TOKEN");
 

@@ -14,6 +14,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 
+import config.SecretsConfig;
+import config.SecretsConfig.AppleCalendarSecrets;
 import org.springframework.stereotype.Service;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -54,13 +56,14 @@ public class AppleCalendarService {
     }
 
     public List<VEvent> retrieveAllCalendarItems() throws Exception {
-        Dotenv dotenv = Dotenv.load();
+//        Dotenv dotenv = Dotenv.load();
+//
+//        String appleId = dotenv.get("APPLE_USR");
+//        String appSpecificPassword = dotenv.get("APPLE_SPEC_PW");
+//        String caldavUrl = dotenv.get("URL");
 
-        String appleId = dotenv.get("APPLE_USR");
-        String appSpecificPassword = dotenv.get("APPLE_SPEC_PW");
-        String caldavUrl = dotenv.get("URL");
 
-        String auth = Base64.getEncoder().encodeToString((appleId + ":" + appSpecificPassword).getBytes(StandardCharsets.UTF_8));
+        String auth = Base64.getEncoder().encodeToString((SecretsConfig.appleCalendarSecrets().username + ":" + SecretsConfig.appleCalendarSecrets().appSpecificPassword).getBytes(StandardCharsets.UTF_8));
 
         String body = """
                 <?xml version="1.0" encoding="UTF-8"?>
@@ -79,7 +82,7 @@ public class AppleCalendarService {
                 </c:calendar-query>
                 """;
 
-        HttpRequest reportRequest = AppleClientService.createReportRequest(new URI(caldavUrl), body, auth);
+        HttpRequest reportRequest = AppleClientService.createReportRequest(new URI(SecretsConfig.appleCalendarSecrets().calDavUrl), body, auth);
         HttpResponse<String> response = AppleClientService.sendRequest(reportRequest);
 
         return AppleClientService.mapResponseToAppleVEvent(response);

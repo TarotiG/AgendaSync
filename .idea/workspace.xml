@@ -5,26 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b1733c4-5c0c-4bac-a5ac-776f8bf5423f" name="Changes" comment="Mapping Apple VEvents afgerond">
-      <change afterPath="$PROJECT_DIR$/src/main/java/syncengine/services/SyncValidationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/syncengine/utilities/TestDataGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Calendar/Sync/SyncCalendarDto.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/calendar/apple/AppleCalendarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/AppleCalendarService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/apple/services/AppleClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/apple/services/AppleClientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syncengine/SyncEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syncengine/SyncEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syncengine/mappers/EventMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syncengine/mappers/EventMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syncengine/sync/SyncEventDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syncengine/sync/SyncEventDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syncengine/utilities/DateTimeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syncengine/utilities/DateTimeMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokens/StoredCredential" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/calendar/google/GoogleCalendarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/calendar/google/GoogleCalendarService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/config/SecretsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/config/SecretsConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,11 +63,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests /&gt;" />
+  </component>
+  <component name="HttpClientOnboardingState"><![CDATA[{
+  "isOnboardingCommentShown": true
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="33YUeUtlPTAmEj4sNzP3IxrgSto" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -80,16 +81,11 @@
     <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "master"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\tgysbert\Desktop\AgendaSync\src\main\java\Calendar\Interfaces" />
@@ -98,7 +94,7 @@
       <recent name="C:\Users\tgysbert\Desktop\random\TestAutomationUni\AgendaSync\src\main" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.AgendaSync [dependencies]">
     <configuration name="AgendaSync [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -117,8 +113,19 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
+    </configuration>
+    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="AgendaSync.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="Main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <recent_temporary>
       <list>
@@ -246,7 +253,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First setup project" />
