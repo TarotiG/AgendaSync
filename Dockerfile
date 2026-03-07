@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 
 # Copy credentials (needed for Google OAuth)
-COPY agendasync-474013-82a844cdf0f6.json /etc/secrets/agendasync-474013-82a844cdf0f6.json
+# COPY agendasync-474013-82a844cdf0f6.json /etc/secrets/agendasync-474013-82a844cdf0f6.json
 
 # Expose Spring Boot default port
 EXPOSE 8080
