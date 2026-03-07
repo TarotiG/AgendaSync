@@ -86,6 +86,8 @@ $RECYCLE.BIN/
 *.crt
 *.csr
 resources/secrets/
+agendasync-474013-82a844cdf0f6.json
+
 # ========================================
 # Logs & Temp files
 # ========================================

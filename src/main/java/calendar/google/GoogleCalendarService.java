@@ -48,7 +48,7 @@ public class GoogleCalendarService {
      */
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
-    private static final String CREDENTIALS_FILE_PATH = "/etc/secrets/agendasync-474013-82a844cdf0f6.json";
+    private static final String CREDENTIALS_FILE_PATH = "agendasync-474013-82a844cdf0f6.json"; // src\main\resources\secrets\agendasync-474013-82a844cdf0f6.json
 
     /**
      * Creates an authorized Credential object.
