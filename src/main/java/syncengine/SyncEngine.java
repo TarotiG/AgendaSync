@@ -9,6 +9,7 @@ import syncengine.mappers.EventMapper;
 import syncengine.sync.SyncEventDto;
 
 import net.fortuna.ical4j.model.component.VEvent;
+import sync.SyncStateTracker;
 import syncengine.services.EventService;
 
 import com.google.api.services.calendar.Calendar;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 // import java.util.ArrayList;
 import java.util.List;
 
@@ -31,15 +33,18 @@ public class SyncEngine {
     final GoogleCalendarService _googleCalendarService;
     final AppleCalendarService _appleCalendarService;
     public final EventService _eventService;
+    final SyncStateTracker _syncStateTracker;
 
     public SyncEngine(
         GoogleCalendarService googleCalendarService,
         AppleCalendarService appleCalendarService,
-        EventService eventService
+        EventService eventService,
+        SyncStateTracker syncStateTracker
     ) {
         this._googleCalendarService = googleCalendarService;
         this._appleCalendarService = appleCalendarService;
         this._eventService = eventService;
+        this._syncStateTracker = syncStateTracker;
     }
 
     // METHODS
@@ -58,8 +63,15 @@ public class SyncEngine {
 
     // AANPASSEN
     public List<SyncEventDto> receiveAppleEvents() throws Exception {
-        logger.debug("Fetching events from Apple Calendar");
-        List<VEvent> vEvents = _appleCalendarService.retrieveAllCalendarItems();
+        LocalDateTime syncTime = _syncStateTracker.getLastAppleSyncTime();
+
+        if (syncTime != null) {
+            logger.debug("Incremental Apple fetch: retrieving events since {}", syncTime);
+        } else {
+            logger.info("No previous Apple sync found — performing initial full sync (last 30 days + future)");
+        }
+
+        List<VEvent> vEvents = _appleCalendarService.retrieveAllCalendarItems(syncTime);
         logger.info("Retrieved {} events from Apple Calendar", vEvents.size());
 
         return EventMapper.mapAppleVEventsToSyncDtos(vEvents);

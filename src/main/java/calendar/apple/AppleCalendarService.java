@@ -11,11 +11,17 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 
 import config.SecretsConfig;
-import config.SecretsConfig.AppleCalendarSecrets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+// import config.SecretsConfig.AppleCalendarSecrets;
 import org.springframework.stereotype.Service;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -50,17 +56,35 @@ import net.fortuna.ical4j.model.property.Version;
 
 @Service
 public class AppleCalendarService {
+  
+  private static final Logger logger = LoggerFactory.getLogger(AppleCalendarService.class);
+
+    // CalDAV vereist timestamps in het formaat: 20250401T000000Z
+    private static final DateTimeFormatter CALDAV_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
+
+    // Standaard terugkijkvenster als er nog geen vorige sync is (eerste keer opstarten)
+    private static final int DEFAULT_LOOKBACK_DAYS = 30;
 
     public void connectToPlatform() {
 
     }
 
-    public List<VEvent> retrieveAllCalendarItems() throws Exception {
+    public List<VEvent> retrieveAllCalendarItems(LocalDateTime syncTime) throws Exception {
 //        Dotenv dotenv = Dotenv.load();
 //
 //        String appleId = dotenv.get("APPLE_USR");
 //        String appSpecificPassword = dotenv.get("APPLE_SPEC_PW");
 //        String caldavUrl = dotenv.get("URL");
+
+      LocalDateTime start = syncTime != null
+        ? syncTime
+        : LocalDateTime.now().minusDays(DEFAULT_LOOKBACK_DAYS);
+
+      LocalDateTime end = LocalDateTime.now(ZoneOffset.UTC).plusYears(1);
+
+      String startFormatted = start.format(CALDAV_FORMATTER);
+      String endFormatted = end.format(CALDAV_FORMATTER);
 
 
         String auth = Base64.getEncoder().encodeToString((SecretsConfig.appleCalendarSecrets().username + ":" + SecretsConfig.appleCalendarSecrets().appSpecificPassword).getBytes(StandardCharsets.UTF_8));
@@ -75,12 +99,12 @@ public class AppleCalendarService {
                   <c:filter>
                     <c:comp-filter name="VCALENDAR">
                       <c:comp-filter name="VEVENT">
-                        <c:time-range start="20250401T000000Z" end="20250430T000000Z"/>
+                        <c:time-range start="%s" end="%s"/>
                       </c:comp-filter>
                     </c:comp-filter>
                   </c:filter>
                 </c:calendar-query>
-                """;
+                """.formatted(startFormatted, endFormatted);
 
         HttpRequest reportRequest = AppleClientService.createReportRequest(new URI(SecretsConfig.appleCalendarSecrets().calDavUrl), body, auth);
         HttpResponse<String> response = AppleClientService.sendRequest(reportRequest);

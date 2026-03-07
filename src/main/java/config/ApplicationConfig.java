@@ -8,6 +8,7 @@ import calendar.google.GoogleCalendarService;
 import calendar.apple.AppleCalendarService;
 import syncengine.SyncEngine;
 import syncengine.services.EventService;
+import sync.SyncStateTracker;
 
 /**
  * Spring Configuration for Bean Management
@@ -85,9 +86,11 @@ public class ApplicationConfig {
     @Bean
     public SyncEngine syncEngine(GoogleCalendarService googleCalendarService,
                                   AppleCalendarService appleCalendarService,
-                                  EventService eventService) {
+                                  EventService eventService,
+                                  SyncStateTracker syncStateTracker
+                                ) {
         logger.debug("Initializing SyncEngine bean with dependencies");
-        SyncEngine syncEngine = new SyncEngine(googleCalendarService, appleCalendarService, eventService);
+        SyncEngine syncEngine = new SyncEngine(googleCalendarService, appleCalendarService, eventService, syncStateTracker);
         // SyncEngine will auto-wire these services
         return syncEngine;
     }
