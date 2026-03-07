@@ -44,7 +44,7 @@ public class SyncScheduler {
     private static final Logger logger = LoggerFactory.getLogger(SyncScheduler.class);
 
     // Polling interval: 15 minutes = 900,000 milliseconds
-    private static final long APPLE_POLL_INTERVAL_MS = 900_000;
+    private static final long APPLE_POLL_INTERVAL_MS = 300000;
 
     @Autowired
     private SyncEngine syncEngine;
