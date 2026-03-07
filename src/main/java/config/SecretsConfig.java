@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 public class SecretsConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(SecretsConfig.class);
-    private static final Dotenv dotEnv = Dotenv.load();
+    private static final Dotenv dotEnv = Dotenv.configure().ignoreIfMissing().load();
 
     /**
      * Bean to validate and expose Apple Calendar secrets
