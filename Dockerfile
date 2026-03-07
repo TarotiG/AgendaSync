@@ -1,5 +1,5 @@
 # ─── Stage 1: Build ───────────────────────────────────────────────────────────
-FROM gradle:8.5-jdk15 AS build
+FROM gradle:8.5-jdk17 AS build
 
 WORKDIR /app
 
