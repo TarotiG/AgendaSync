@@ -64,11 +64,14 @@ public class GoogleCalendarService {
 
         if (credentialsPath != null && !credentialsPath.isEmpty()) {
             logger.debug("Loading service account credentials from path: {}", credentialsPath);
-            
+
             try (InputStream in = new FileInputStream(credentialsPath)) {
                 return ServiceAccountCredentials.fromStream(in)
                         .createScoped(SCOPES);
             }
+        } else {
+            logger.error("GOOGLE_SERVICE_ACCOUNT environment variable not set from classpath.");
+            throw new IOException("Google service account credentials file not found. Set GOOGLE_SERVICE_ACCOUNT environment variable.");
         }
     }
 
