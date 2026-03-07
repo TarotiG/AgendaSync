@@ -32,11 +32,6 @@ public class GoogleCalendarService {
     private static final String APPLICATION_NAME = "AgendaSync";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    // Pad naar het service account JSON bestand in de container
-    // In Docker: COPY service-account.json ./service-account.json
-    // Lokaal: zet het bestand in de project root
-    private static final String SERVICE_ACCOUNT_FILE = "service-account.json";
-
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
 
@@ -65,10 +60,11 @@ public class GoogleCalendarService {
      * daarna als classpath resource (voor lokale ontwikkeling).
      */
     private GoogleCredentials loadServiceAccountCredentials() throws IOException {
-        // Optie 1: pad via omgevingsvariabele (handig voor Render secret files)
         String credentialsPath = System.getenv("GOOGLE_SERVICE_ACCOUNT");
+
         if (credentialsPath != null && !credentialsPath.isEmpty()) {
             logger.debug("Loading service account credentials from path: {}", credentialsPath);
+            
             try (InputStream in = new FileInputStream(credentialsPath)) {
                 return ServiceAccountCredentials.fromStream(in)
                         .createScoped(SCOPES);
