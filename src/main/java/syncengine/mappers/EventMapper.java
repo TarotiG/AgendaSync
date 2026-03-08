@@ -167,15 +167,20 @@ public class EventMapper {
         DateTime googleDateTime = syncEventDate.getDateTime();
 
         if (googleDateTime != null) {
-            // Tijdgebonden event
-            return new Date(new java.util.Date(googleDateTime.getValue()));
+            // Tijdgebonden event — gebruik net.fortuna.ical4j.model.DateTime (met tijd)
+            net.fortuna.ical4j.model.DateTime icalDateTime = new net.fortuna.ical4j.model.DateTime();
+            icalDateTime.setTime(googleDateTime.getValue());
+            return icalDateTime;
         } else {
-            // All-day event — Google geeft de datum als "yyyy-MM-dd" string via getDate()
+            // All-day event — Google geeft "yyyy-MM-dd" via getDate()
+            // iCal4j verwacht "yyyyMMdd" formaat voor een date-only Date object
             DateTime googleDate = syncEventDate.getDate();
             if (googleDate == null) {
                 throw new ParseException("EventDateTime heeft geen dateTime of date waarde", 0);
             }
-            return new Date(new java.util.Date(googleDate.getValue()));
+            // Converteer "2026-04-24" naar "20260424" voor iCal4j
+            String rawDate = googleDate.toStringRfc3339().replace("-", "").substring(0, 8);
+            return new Date(rawDate);
         }
     }
 

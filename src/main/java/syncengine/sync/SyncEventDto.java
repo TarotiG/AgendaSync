@@ -72,16 +72,34 @@ public class SyncEventDto {
 
     public void getVEventStart(VEvent event) {
         String isoStartDate = event.getStartDate().getValue();
-        DateTime startDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoStartDate, "Europe/Amsterdam");
 
-        this.startDateTime = new EventDateTime().setDateTime(startDate);
+        if (DateTimeMapper.isAllDay(isoStartDate)) {
+            // All-day event: Google verwacht "yyyy-MM-dd" via setDate(), niet setDateTime()
+            String googleDate = DateTimeMapper.convertICalDateToGoogleDate(isoStartDate);
+            this.startDateTime = new EventDateTime()
+                    .setDate(new com.google.api.client.util.DateTime(googleDate));
+        } else {
+            DateTime startDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoStartDate, "Europe/Amsterdam");
+            this.startDateTime = new EventDateTime()
+                    .setDateTime(startDate)
+                    .setTimeZone("Europe/Amsterdam");
+        }
     }
 
     public void getVEventEnd(VEvent event) {
         String isoEndDate = event.getEndDate().getValue();
-        DateTime endDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoEndDate, "Europe/Amsterdam");
 
-        this.endDateTime = new EventDateTime().setDateTime(endDate);
+        if (DateTimeMapper.isAllDay(isoEndDate)) {
+            // All-day event: Google verwacht "yyyy-MM-dd" via setDate(), niet setDateTime()
+            String googleDate = DateTimeMapper.convertICalDateToGoogleDate(isoEndDate);
+            this.endDateTime = new EventDateTime()
+                    .setDate(new com.google.api.client.util.DateTime(googleDate));
+        } else {
+            DateTime endDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoEndDate, "Europe/Amsterdam");
+            this.endDateTime = new EventDateTime()
+                    .setDateTime(endDate)
+                    .setTimeZone("Europe/Amsterdam");
+        }
     }
 
     public void getVEventLocation(VEvent event) {
