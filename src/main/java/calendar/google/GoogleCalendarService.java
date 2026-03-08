@@ -44,7 +44,7 @@ public class GoogleCalendarService {
      * 2. Classpath (voor lokaal testen — zet het bestand in src/main/resources)
      */
     private GoogleCredentials loadServiceAccountCredentials() throws IOException {
-        String credentialsPath = System.getenv("GOOGLE_SERVICE_ACCOUNT_FILE");
+        String credentialsPath = System.getenv("GOOGLE_SERVICE_ACCOUNT");
 
         if (credentialsPath != null && !credentialsPath.isEmpty()) {
             logger.debug("Loading service account credentials from path: {}", credentialsPath);
@@ -54,12 +54,12 @@ public class GoogleCalendarService {
         }
 
         // Fallback: classpath (lokale ontwikkeling)
-        logger.debug("GOOGLE_SERVICE_ACCOUNT_FILE not set — trying classpath");
+        logger.debug("GOOGLE_SERVICE_ACCOUNT not set — trying classpath");
         InputStream in = getClass().getClassLoader().getResourceAsStream("service-account.json");
         if (in == null) {
             throw new IOException(
                 "Geen service account credentials gevonden. " +
-                "Stel GOOGLE_SERVICE_ACCOUNT_FILE in als omgevingsvariabele, " +
+                "Stel GOOGLE_SERVICE_ACCOUNT in als omgevingsvariabele, " +
                 "of zet service-account.json in src/main/resources."
             );
         }
