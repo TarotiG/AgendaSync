@@ -1,96 +1,93 @@
 package calendar.google;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
-import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-//import jdk.jshell.spi.ExecutionControl;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 
-import java.io.FileNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import org.springframework.stereotype.Service;
 
 @Service
 public class GoogleCalendarService {
-    /**
-     * Application name.
-     */
-    private static final String APPLICATION_NAME = "AgendaSync";
-    /**
-     * Global instance of the JSON factory.
-     */
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    /**
-     * Directory to store authorization tokens for this application.
-     */
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-    /**
-     * Global instance of the scopes required by this quickstart.
-     * If modifying these scopes, delete your previously saved tokens/ folder.
-     */
+    private static final Logger logger = LoggerFactory.getLogger(GoogleCalendarService.class);
+    private static final String APPLICATION_NAME = "AgendaSync";
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
-    private static final String CREDENTIALS_FILE_PATH = "agendasync-474013-82a844cdf0f6.json";
+
+    private String latestSyncToken = null;
+
+    // ─── Authenticatie ────────────────────────────────────────────────────────
 
     /**
-     * Creates an authorized Credential object.
-     *
-     * @param HTTP_TRANSPORT The network HTTP Transport.
-     * @return An authorized Credential object.
-     * @throws IOException If the credentials.json file cannot be found.
+     * Laadt service account credentials via:
+     * 1. GOOGLE_SERVICE_ACCOUNT_FILE omgevingsvariabele (Render Secret File pad)
+     * 2. Classpath (voor lokaal testen — zet het bestand in src/main/resources)
      */
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
-            throws IOException {
-        // Load client secrets.
-        InputStream in = GoogleCalendarService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+    private GoogleCredentials loadServiceAccountCredentials() throws IOException {
+        String credentialsPath = System.getenv("GOOGLE_SERVICE_ACCOUNT_FILE");
+
+        if (credentialsPath != null && !credentialsPath.isEmpty()) {
+            logger.debug("Loading service account credentials from path: {}", credentialsPath);
+            try (InputStream in = new FileInputStream(credentialsPath)) {
+                return ServiceAccountCredentials.fromStream(in).createScoped(SCOPES);
+            }
         }
-        GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-
-        //returns an authorized Credential object.
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-    }
-
-    public Calendar connectToPlatform() throws IOException, GeneralSecurityException {
-
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        return new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                        .setApplicationName(APPLICATION_NAME)
-                        .build();
+        // Fallback: classpath (lokale ontwikkeling)
+        logger.debug("GOOGLE_SERVICE_ACCOUNT_FILE not set — trying classpath");
+        InputStream in = getClass().getClassLoader().getResourceAsStream("service-account.json");
+        if (in == null) {
+            throw new IOException(
+                "Geen service account credentials gevonden. " +
+                "Stel GOOGLE_SERVICE_ACCOUNT_FILE in als omgevingsvariabele, " +
+                "of zet service-account.json in src/main/resources."
+            );
+        }
+        return ServiceAccountCredentials.fromStream(in).createScoped(SCOPES);
     }
 
     /**
-     * Haalt alle toekomstige events op (initiële sync of Apple->Google richting).
-     * Geen syncToken — haalt alles op vanaf nu tot +1 jaar.
+     * Maakt verbinding met Google Calendar via service account.
+     * Werkt headless — geen browser of OAuth flow nodig.
+     */
+    public Calendar connectToPlatform() throws IOException, GeneralSecurityException {
+        logger.debug("Connecting to Google Calendar via Service Account");
+        GoogleCredentials credentials = loadServiceAccountCredentials();
+        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
+
+        return new Calendar.Builder(
+                GoogleNetHttpTransport.newTrustedTransport(),
+                JSON_FACTORY,
+                requestInitializer)
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+    }
+
+    // ─── Event ophalen ────────────────────────────────────────────────────────
+
+    /**
+     * Haalt alle toekomstige events op (voor Apple->Google richting of initiële sync).
+     * Gebruikt paginering — geen limiet op aantal events.
      */
     public List<Event> retrieveAllCalendarItems(Calendar calendar) throws IOException {
         DateTime now = new DateTime(System.currentTimeMillis());
@@ -118,12 +115,8 @@ public class GoogleCalendarService {
     }
 
     /**
-     * Haalt alleen gewijzigde events op sinds de laatste sync via Google's syncToken mechanisme.
-     * Geeft null terug als het syncToken verlopen is (dan moet een volledige sync gedaan worden).
-     *
-     * @param calendar  Google Calendar client
-     * @param syncToken het syncToken van de vorige sync (opgeslagen door SyncStateTracker)
-     * @return lijst van gewijzigde/nieuwe events, of null als syncToken verlopen is
+     * Haalt alleen gewijzigde events op via Google's syncToken (incrementeel).
+     * Geeft null terug bij een verlopen token (410) — dan volledige sync uitvoeren.
      */
     public List<Event> retrieveChangedCalendarItems(Calendar calendar, String syncToken) throws IOException {
         try {
@@ -142,7 +135,6 @@ public class GoogleCalendarService {
                 }
                 pageToken = events.getNextPageToken();
 
-                // Sla het nieuwe syncToken op als we op de laatste pagina zijn
                 if (pageToken == null && events.getNextSyncToken() != null) {
                     this.latestSyncToken = events.getNextSyncToken();
                 }
@@ -152,7 +144,8 @@ public class GoogleCalendarService {
 
         } catch (com.google.api.client.googleapis.json.GoogleJsonResponseException e) {
             if (e.getStatusCode() == 410) {
-                // 410 Gone: syncToken is verlopen — volledige sync nodig
+                // syncToken verlopen — volledige sync nodig
+                logger.warn("Google syncToken expired (410) — full sync required");
                 return null;
             }
             throw e;
@@ -160,8 +153,7 @@ public class GoogleCalendarService {
     }
 
     /**
-     * Voert een initiële volledige sync uit en slaat het syncToken op voor toekomstig gebruik.
-     * Moet aangeroepen worden als er nog geen syncToken is of als het verlopen is.
+     * Volledige sync met syncToken opslag — gebruik bij eerste sync of na verlopen token.
      */
     public List<Event> retrieveAllItemsAndStoreSyncToken(Calendar calendar) throws IOException {
         DateTime now = new DateTime(System.currentTimeMillis());
@@ -192,26 +184,7 @@ public class GoogleCalendarService {
         return allEvents;
     }
 
-    /** Geeft het meest recente syncToken terug na een sync aanroep. */
     public String getLatestSyncToken() {
         return latestSyncToken;
     }
-
-    private String latestSyncToken = null;
-
-//    public void sortCalendarItemsToDate() throws ExecutionControl.NotImplementedException {
-//        throw new ExecutionControl.NotImplementedException("Not implemented yet");
-//    }
-//
-//    public void postCalendarItem() throws ExecutionControl.NotImplementedException {
-//        throw new ExecutionControl.NotImplementedException("Not implemented yet");
-//    }
-//
-//    public void syncCalendarWithEngine() throws ExecutionControl.NotImplementedException {
-//        throw new ExecutionControl.NotImplementedException("Not implemented yet");
-//    }
-//
-//    public void validateSyncToEngine() throws ExecutionControl.NotImplementedException {
-//        throw new ExecutionControl.NotImplementedException("Not implemented yet");
-//    }
 }
