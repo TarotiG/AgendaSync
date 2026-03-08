@@ -97,7 +97,10 @@ public class AppleClientService {
         new CalendarOutputter().output(calendar, bout);
         String icsBody = bout.toString(StandardCharsets.UTF_8);
 
-        String eventUrl = url + "/" + uuid + ".ics";
+        // Saniteer de UUID zodat hij veilig als bestandsnaam gebruikt kan worden
+        // Google iCalUID bevat bijv. "abc123@google.com" — vervang @ en . voor gebruik in URL
+        String safeUuid = uuid.replace("@", "_").replace(".", "_");
+        String eventUrl = url + "/" + safeUuid + ".ics";
 
         BasicCredentialsProvider provider = new BasicCredentialsProvider();
         provider.setCredentials(
@@ -111,7 +114,7 @@ public class AppleClientService {
 
             HttpPut put = new HttpPut(eventUrl);
             put.setHeader("Content-Type", "text/calendar; charset=utf-8");
-            put.setHeader("If-None-Match", "*");  // ensures creation, not overwrite
+            put.setHeader("If-None-Match", "*");  // Voorkomt overschrijven: Apple geeft 412 als event al bestaat
             put.setHeader("Depth", "0");
             put.setHeader("User-Agent", "iCal/9.0");
             put.setEntity(new StringEntity(icsBody, "UTF-8"));
@@ -120,9 +123,14 @@ public class AppleClientService {
             int status = response.getStatusLine().getStatusCode();
 
             if (status >= 200 && status < 300) {
+                // Event succesvol aangemaakt
                 System.out.println("CalDAV event created: " + eventUrl);
+            } else if (status == 412) {
+                // 412 Precondition Failed: event bestaat al op dit pad — geen actie nodig
+                // If-None-Match: * zorgt voor deze response bij een bestaand event
+                System.out.println("CalDAV event already exists (skipped): " + eventUrl);
             } else {
-                throw new RuntimeException("CalDAV PUT failed: " + status);
+                throw new RuntimeException("CalDAV PUT failed with status " + status + " for: " + eventUrl);
             }
         }
     }

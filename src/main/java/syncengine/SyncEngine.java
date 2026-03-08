@@ -87,7 +87,7 @@ public class SyncEngine {
     }
 
     public void sendGoogleAgendaNewUpdates(List<SyncEventDto> syncEventDtoList) throws IOException, GeneralSecurityException {
-        logger.debug("Sending {} events to Google Calendar", syncEventDtoList.size());
+        logger.info("Sending {} events to Google Calendar", syncEventDtoList.size());
         Calendar calendar = _googleCalendarService.connectToPlatform();
 
         List<Event> events = EventMapper.mapSyncEventsDtoBackToGoogleEvents(syncEventDtoList);
@@ -95,7 +95,7 @@ public class SyncEngine {
         events.forEach( (event) -> {
             try {
                 calendar.events().insert("primary", event).execute();
-                logger.debug("Event '{}' created on date {} and sent to Google Calendar", event.getSummary(), event.getStart());
+                logger.info("Event '{}' created on date {} and sent to Google Calendar", event.getSummary(), event.getStart());
             } catch (IOException e) {
                 logger.error("Error sending event to Google Calendar: {}", e.getMessage(), e);
             }
@@ -126,7 +126,7 @@ public class SyncEngine {
     public void syncAppleCalendarToGoogle() {
         logger.info("========== Starting Apple->Google Calendar Sync ==========");
         try {
-            logger.debug("Step 1: Fetching events from Apple Calendar");
+            logger.info("Step 1: Fetching events from Apple Calendar");
             List<SyncEventDto> appleEvents = receiveAppleEvents();
             logger.info("Fetched {} events from Apple Calendar", appleEvents.size());
 
@@ -136,9 +136,27 @@ public class SyncEngine {
                 return;
             }
 
-            logger.debug("Step 2: Sending {} events to Google Calendar", appleEvents.size());
-            sendGoogleAgendaNewUpdates(appleEvents);
-            logger.info("Successfully synced {} events from Apple to Google", appleEvents.size());
+            // Filter events die oorspronkelijk uit Google komen — die hoeven niet terug
+            // Een event met syncId "google_xxx" is al aangemaakt door de Google->Apple sync
+            List<SyncEventDto> nativeAppleEvents = appleEvents.stream()
+                    .filter(e -> e.syncId == null || !e.syncId.startsWith("google_"))
+                    .collect(java.util.stream.Collectors.toList());
+
+            int skipped = appleEvents.size() - nativeAppleEvents.size();
+            if (skipped > 0) {
+                logger.debug("Skipped {} events that originated from Google (prevented loop)", skipped);
+            }
+
+            if (nativeAppleEvents.isEmpty()) {
+                logger.info("No native Apple events to sync to Google");
+                _syncStateTracker.updateLastAppleSyncTime(java.time.LocalDateTime.now());
+                logger.info("========== Completed Apple->Google Sync (no native changes) ==========");
+                return;
+            }
+
+            logger.info("Step 2: Sending {} native Apple events to Google Calendar", nativeAppleEvents.size());
+            sendGoogleAgendaNewUpdates(nativeAppleEvents);
+            logger.info("Successfully synced {} events from Apple to Google", nativeAppleEvents.size());
 
             logger.info("========== Completed Apple->Google Calendar Sync ==========");
 
@@ -167,7 +185,7 @@ public class SyncEngine {
     public void syncGoogleCalendarToApple() {
         logger.info("========== Starting Google->Apple Calendar Sync ==========");
         try {
-            logger.debug("Step 1: Fetching events from Google Calendar");
+            logger.info("Step 1: Fetching events from Google Calendar");
             List<SyncEventDto> googleEvents = receiveGoogleEvents();
             logger.info("Fetched {} events from Google Calendar", googleEvents.size());
 
@@ -177,9 +195,26 @@ public class SyncEngine {
                 return;
             }
 
-            logger.debug("Step 2: Sending {} events to Apple Calendar", googleEvents.size());
-            sendAppleAgendaNewUpdates(googleEvents);
-            logger.info("Successfully synced {} events from Google to Apple", googleEvents.size());
+            // Filter events die oorspronkelijk uit Apple komen — die hoeven niet terug
+            // Een event met syncId "apple_xxx" is al aangemaakt door de Apple->Google sync
+            List<SyncEventDto> nativeGoogleEvents = googleEvents.stream()
+                    .filter(e -> e.syncId == null || !e.syncId.startsWith("apple_"))
+                    .collect(java.util.stream.Collectors.toList());
+
+            int skipped = googleEvents.size() - nativeGoogleEvents.size();
+            if (skipped > 0) {
+                logger.info("Skipped {} events that originated from Apple (prevented loop)", skipped);
+            }
+
+            if (nativeGoogleEvents.isEmpty()) {
+                logger.info("No native Google events to sync to Apple");
+                logger.info("========== Completed Google->Apple Sync (no native changes) ==========");
+                return;
+            }
+
+            logger.info("Step 2: Sending {} native Google events to Apple Calendar", nativeGoogleEvents.size());
+            sendAppleAgendaNewUpdates(nativeGoogleEvents);
+            logger.info("Successfully synced {} events from Google to Apple", nativeGoogleEvents.size());
 
             logger.info("========== Completed Google->Apple Calendar Sync ==========");
 
@@ -190,7 +225,7 @@ public class SyncEngine {
     }
 
     public void sendAppleAgendaNewUpdates(List<SyncEventDto> events) throws ParseException {
-        logger.debug("Sending {} events to Apple Calendar", events.size());
+        logger.info("Sending {} events to Apple Calendar", events.size());
 
         List<VEvent> appleEvents = EventMapper.mapSyncEventDtoBackToAppleVEvents(events);
 

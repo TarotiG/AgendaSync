@@ -61,33 +61,27 @@ public class SyncEventDto {
     }
 
     public void getVEventCreated(VEvent event) {
-        this.created = new DateTime(event.getCreated().getDate());
+        // getCreated() kan null zijn — niet alle CalDAV clients zetten de CREATED property
+        if (event.getCreated() != null && event.getCreated().getDate() != null) {
+            this.created = new DateTime(event.getCreated().getDate());
+        } else {
+            // Fallback: gebruik huidige tijd als aanmaakdatum niet beschikbaar is
+            this.created = new DateTime(System.currentTimeMillis());
+        }
     }
 
     public void getVEventStart(VEvent event) {
         String isoStartDate = event.getStartDate().getValue();
+        DateTime startDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoStartDate, "Europe/Amsterdam");
 
-        if (DateTimeMapper.isAllDay(isoStartDate)) {
-            // All-day event: gebruik setDate() met "yyyy-MM-dd" formaat, niet setDateTime()
-            String googleDate = DateTimeMapper.convertICalDateToGoogleDate(isoStartDate);
-            this.startDateTime = new EventDateTime().setDate(new com.google.api.client.util.DateTime(googleDate));
-        } else {
-            DateTime startDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoStartDate, "Europe/Amsterdam");
-            this.startDateTime = new EventDateTime().setDateTime(startDate).setTimeZone("Europe/Amsterdam");
-        }
+        this.startDateTime = new EventDateTime().setDateTime(startDate);
     }
 
     public void getVEventEnd(VEvent event) {
         String isoEndDate = event.getEndDate().getValue();
+        DateTime endDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoEndDate, "Europe/Amsterdam");
 
-        if (DateTimeMapper.isAllDay(isoEndDate)) {
-            // All-day event: gebruik setDate() met "yyyy-MM-dd" formaat, niet setDateTime()
-            String googleDate = DateTimeMapper.convertICalDateToGoogleDate(isoEndDate);
-            this.endDateTime = new EventDateTime().setDate(new com.google.api.client.util.DateTime(googleDate));
-        } else {
-            DateTime endDate = DateTimeMapper.convertICalDateTimeToGoogleDateTime(isoEndDate, "Europe/Amsterdam");
-            this.endDateTime = new EventDateTime().setDateTime(endDate).setTimeZone("Europe/Amsterdam");
-        }
+        this.endDateTime = new EventDateTime().setDateTime(endDate);
     }
 
     public void getVEventLocation(VEvent event) {

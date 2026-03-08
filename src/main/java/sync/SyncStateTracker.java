@@ -173,8 +173,9 @@ public class SyncStateTracker {
         try {
             // Create state file directory if it doesn't exist
             Path filePath = Paths.get(STATE_FILE);
-            if (!Files.exists(filePath.getParent())) {
-                Files.createDirectories(filePath.getParent());
+            Path parent = filePath.getParent();
+            if (parent != null && !Files.exists(parent)) {
+                Files.createDirectories(parent);
             }
 
             // Read existing state
@@ -198,6 +199,69 @@ public class SyncStateTracker {
         } catch (Exception e) {
             logger.error("Error writing sync state to file: {}", e.getMessage(), e);
             logger.error("State persistence failed - next sync will be full sync");
+        }
+    }
+
+    private static final String GOOGLE_SYNC_TOKEN_KEY = "google_sync_token";
+
+    /**
+     * Geeft het opgeslagen Google syncToken terug, of null als er nog geen is.
+     */
+    public synchronized String getLastGoogleSyncToken() {
+        return readStringFromFile(GOOGLE_SYNC_TOKEN_KEY);
+    }
+
+    /**
+     * Slaat het nieuwe Google syncToken op na een succesvolle sync.
+     */
+    public synchronized void saveGoogleSyncToken(String syncToken) {
+        writeStringToFile(GOOGLE_SYNC_TOKEN_KEY, syncToken);
+        logger.debug("Google syncToken saved");
+    }
+
+    /**
+     * Leest een string waarde uit het state bestand (voor syncToken opslag).
+     */
+    private String readStringFromFile(String key) {
+        try {
+            Path filePath = Paths.get(STATE_FILE);
+            if (!Files.exists(filePath)) return null;
+
+            java.util.Properties props = new java.util.Properties();
+            try (FileInputStream fis = new FileInputStream(STATE_FILE)) {
+                props.load(fis);
+            }
+            return props.getProperty(key);
+        } catch (Exception e) {
+            logger.warn("Error reading {} from state file: {}", key, e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Schrijft een string waarde naar het state bestand.
+     */
+    private void writeStringToFile(String key, String value) {
+        try {
+            Path filePath = Paths.get(STATE_FILE);
+            // Fix: getParent() kan null zijn als het pad geen directory component heeft
+            Path parent = filePath.getParent();
+            if (parent != null && !Files.exists(parent)) {
+                Files.createDirectories(parent);
+            }
+
+            java.util.Properties props = new java.util.Properties();
+            if (Files.exists(filePath)) {
+                try (FileInputStream fis = new FileInputStream(STATE_FILE)) {
+                    props.load(fis);
+                }
+            }
+            props.setProperty(key, value);
+            try (FileOutputStream fos = new FileOutputStream(STATE_FILE)) {
+                props.store(fos, "AgendaSync Synchronization State");
+            }
+        } catch (Exception e) {
+            logger.error("Error writing {} to state file: {}", key, e.getMessage(), e);
         }
     }
 
