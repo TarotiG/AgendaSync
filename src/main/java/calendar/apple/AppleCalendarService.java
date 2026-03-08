@@ -124,15 +124,15 @@ public class AppleCalendarService {
     }
 
     public void sendIcsToAppleCalendar(VEvent event) throws IOException {
-        Dotenv dotenv = Dotenv.load();
-
-        String appleId = dotenv.get("APPLE_USR");
-        String appSpecificPassword = dotenv.get("APPLE_SPEC_PW");
-        String caldavUrl = dotenv.get("URL");
-
         Calendar calendar = createCalendarForSync(event);
 
-        AppleClientService.createAndSendPutRequest(calendar, event.getUid().getValue(), caldavUrl, appleId, appSpecificPassword);
+        AppleClientService.createAndSendPutRequest(
+          calendar,
+          event.getUid().getValue(),
+          SecretsConfig.appleCalendarSecrets().calDavUrl,
+          SecretsConfig.appleCalendarSecrets().username,
+          SecretsConfig.appleCalendarSecrets().appSpecificPassword
+        );
     }
 
 //    public List<CalendarInfo> fetchWritableCalendars() throws Exception {
