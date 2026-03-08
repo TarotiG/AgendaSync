@@ -156,12 +156,27 @@ public class EventMapper {
         return appleEvents;
     }
 
+    /**
+     * Converteert een Google EventDateTime naar een iCal4j Date.
+     *
+     * Houdt rekening met twee gevallen:
+     * 1. Tijdgebonden event: EventDateTime.getDateTime() is gevuld
+     * 2. All-day event: EventDateTime.getDateTime() is null, getDate() is gevuld
+     */
     public static Date convertDateToCalDavDate(EventDateTime syncEventDate) throws ParseException {
         DateTime googleDateTime = syncEventDate.getDateTime();
 
-        java.util.Date utilDate = new Date(googleDateTime.getValue());
-
-        return new Date(utilDate);
+        if (googleDateTime != null) {
+            // Tijdgebonden event
+            return new Date(new java.util.Date(googleDateTime.getValue()));
+        } else {
+            // All-day event — Google geeft de datum als "yyyy-MM-dd" string via getDate()
+            DateTime googleDate = syncEventDate.getDate();
+            if (googleDate == null) {
+                throw new ParseException("EventDateTime heeft geen dateTime of date waarde", 0);
+            }
+            return new Date(new java.util.Date(googleDate.getValue()));
+        }
     }
 
     /**
